@@ -18,7 +18,7 @@ export default function Home() {
         description="本站彙整所有進行中及已完成專案的交接文件，供接手人員與內部關係人快速掌握現況。"
         meta={
           <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium border border-slate-200">
-            機密 — 限內部使用
+            beBit 交接入口
           </span>
         }
       />

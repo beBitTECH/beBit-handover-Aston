@@ -29,11 +29,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Build for Production
+### Build static output locally
 
 ```bash
-npm run build
-npm start
+npm run build   # outputs to ./out/
 ```
 
 ---
@@ -82,17 +81,20 @@ Edit `data/projects.ts`. Each object in the `projects` array drives the Project 
 
 ## How to Deploy
 
-### Vercel (recommended)
-1. Push this repository to GitHub under the company organization
-2. Import the repo in Vercel: https://vercel.com/new
-3. No environment variables are required for the base documentation site
-4. Every push to `main` will auto-deploy
+### GitHub Pages
 
-### Other static hosts
-```bash
-npm run build
+The site is configured for static export (`output: 'export'` in `next.config.ts`). A GitHub Actions workflow at `.github/workflows/deploy.yml` builds and publishes automatically on every push to `main`.
+
+**One-time GitHub UI setup:**
+1. Go to the repository on GitHub: **Settings → Pages**
+2. Under **Source**, select **GitHub Actions**
+3. Push to `main` — the workflow will deploy automatically
+
+**If GitHub Pages serves at a subpath** (e.g. `beBitTECH.github.io/beBit-handover-Aston` without a custom domain), add this to `next.config.ts`:
+```ts
+basePath: '/beBit-handover-Aston',
 ```
-The output in `.next/` can be served with `npm start` or exported with `next export` if you add `output: 'export'` to `next.config.ts`.
+If using a custom domain mapped to the root, no `basePath` is needed.
 
 ---
 

@@ -98,16 +98,14 @@ export default function CompetitiveIntelligencePage() {
 
       {/* 重要連結 */}
       <SectionCard title="重要連結" className="mb-6">
-        <InfoRow label="GitHub" value={<span className="italic text-slate-400">[PLACEHOLDER — GitHub URL]</span>} />
+        <InfoRow label="正式儀表板" value={<a href="https://competitor-ad-intelligence-xi.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">competitor-ad-intelligence-xi.vercel.app</a>} />
+        <InfoRow label="追蹤範圍" value={<a href="https://competitor-ad-intelligence-xi.vercel.app/tracking-scope" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">competitor-ad-intelligence-xi.vercel.app/tracking-scope</a>} />
+        <InfoRow label="維護手冊" value={<a href="https://competitor-ad-intelligence-xi.vercel.app/maintenance-guide" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">competitor-ad-intelligence-xi.vercel.app/maintenance-guide</a>} />
+        <InfoRow label="GitHub Repository" value={<a href="https://github.com/beBitTECH/competitor-ad-intelligence" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">beBitTECH/competitor-ad-intelligence</a>} />
         <InfoRow label="Google Sheets" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Sheets URL]</span>} />
+        <InfoRow label="Apps Script" value={<span className="italic text-slate-400">[PLACEHOLDER — Apps Script URL]</span>} />
         <InfoRow label="Supabase" value={<span className="italic text-slate-400">[PLACEHOLDER — Supabase URL]</span>} />
-        <InfoRow label="Vercel" value={<span className="italic text-slate-400">[PLACEHOLDER — Vercel URL]</span>} />
-        <InfoRow label="SearchAPI" value={<span className="italic text-slate-400">[PLACEHOLDER — SearchAPI URL]</span>} />
-        <InfoRow label="Groq Console" value={<span className="italic text-slate-400">[PLACEHOLDER — Groq URL]</span>} />
-        <InfoRow label="docs/HANDOVER.md" value={<span className="italic text-slate-400">GitHub repo 內的 docs/ 資料夾</span>} />
-        <InfoRow label="docs/RUNBOOK.md" value={<span className="italic text-slate-400">GitHub repo 內的 docs/ 資料夾</span>} />
-        <InfoRow label="docs/TROUBLESHOOTING.md" value={<span className="italic text-slate-400">GitHub repo 內的 docs/ 資料夾</span>} />
-        <InfoRow label="docs/DATA_DICTIONARY.md" value={<span className="italic text-slate-400">GitHub repo 內的 docs/ 資料夾</span>} />
+        <InfoRow label="Google Drive 圖片資料夾" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Drive URL]</span>} />
       </SectionCard>
 
       {/* 已知問題 */}

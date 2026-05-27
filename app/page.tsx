@@ -1,65 +1,105 @@
-import Image from "next/image";
+import Link from "next/link";
+import PageHeader from "@/components/PageHeader";
+import SectionCard from "@/components/SectionCard";
+import StatusBadge from "@/components/StatusBadge";
+import { projects } from "@/data/projects";
+
+const onboardingSteps = [
+  { step: 1, label: "確認授權", description: "取得所有服務的存取權，確認帳號已就緒", href: "/access-registry" },
+  { step: 2, label: "瀏覽專案清單", description: "了解全部 6 個待交接專案的狀態與優先級", href: "/projects" },
+  { step: 3, label: "閱讀優先專案交接頁", description: "競品廣告情報系統為最高優先級的進行中系統", href: "/projects/competitive-intelligence" },
+  { step: 4, label: "確認維護責任", description: "了解每日與每週的操作與檢查項目", href: "/runbook" },
+  { step: 5, label: "閱讀已知問題", description: "了解各系統現有的未解決問題與暫行措施", href: "/issues" },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div>
+      <PageHeader
+        title="beBit 交接總覽"
+        description="本站彙整所有進行中及已完成專案的交接文件，供接手人員與內部關係人快速掌握現況。"
+        meta={
+          <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium border border-slate-200">
+            機密 — 限內部使用
+          </span>
+        }
+      />
+
+      <SectionCard title="本站架構" className="mb-6">
+        <table className="w-full text-sm">
+          <tbody>
+            {[
+              { page: "專案清單", desc: "6 個待交接專案的狀態、負責人及優先級", href: "/projects" },
+              { page: "維護流程", desc: "日常、每週、每月操作清單及緊急應變步驟", href: "/runbook" },
+              { page: "權限與帳號清單", desc: "所有服務帳號及取得授權的聯絡方式", href: "/access-registry" },
+              { page: "已知問題與風險", desc: "系統現有未解決問題及暫行措施", href: "/issues" },
+              { page: "重要連結", desc: "各系統的 GitHub、Google Drive、儀表板等連結", href: "/links" },
+            ].map(({ page, desc, href }) => (
+              <tr key={href} className="border-b border-slate-100 last:border-0">
+                <td className="py-2.5 pr-4 w-48">
+                  <Link href={href} className="text-blue-700 font-medium hover:underline text-sm">
+                    {page}
+                  </Link>
+                </td>
+                <td className="py-2.5 text-slate-600">{desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </SectionCard>
+
+      <SectionCard title="第一天閱讀路徑" className="mb-6">
+        <ol className="space-y-3">
+          {onboardingSteps.map(({ step, label, description, href }) => (
+            <li key={step} className="flex gap-4 items-start">
+              <span className="shrink-0 w-6 text-slate-400 font-medium text-sm text-right mt-0.5">{step}.</span>
+              <div className="text-sm">
+                <Link href={href} className="font-semibold text-slate-800 hover:text-blue-700">
+                  {label}
+                </Link>
+                <p className="text-slate-500 mt-0.5">{description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </SectionCard>
+
+      <SectionCard title="專案狀態一覽">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left border-b border-slate-200">
+                <th className="pb-2 font-semibold text-slate-500 pr-4">專案名稱</th>
+                <th className="pb-2 font-semibold text-slate-500 pr-4">優先級</th>
+                <th className="pb-2 font-semibold text-slate-500 pr-4">狀態</th>
+                <th className="pb-2 font-semibold text-slate-500">接手者</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.map((p) => (
+                <tr key={p.id} className="border-b border-slate-100 last:border-0">
+                  <td className="py-2.5 pr-4">
+                    {p.detailHref ? (
+                      <Link href={p.detailHref} className="text-blue-700 hover:underline font-medium">
+                        {p.title}
+                      </Link>
+                    ) : (
+                      <span className="font-medium text-slate-800">{p.title}</span>
+                    )}
+                  </td>
+                  <td className="py-2.5 pr-4">
+                    <StatusBadge status={p.priority} />
+                  </td>
+                  <td className="py-2.5 pr-4">
+                    <StatusBadge status={p.status} />
+                  </td>
+                  <td className="py-2.5 text-slate-500 italic text-xs">{p.successor}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </SectionCard>
     </div>
   );
 }

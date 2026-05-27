@@ -130,10 +130,6 @@ export default function CompetitiveIntelligencePage() {
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-slate-400 mt-2">
-          完整問題記錄（含暫行措施）請見
-          <a href="/issues" className="text-blue-600 hover:underline ml-1">已知問題與風險頁</a>。
-        </p>
       </SectionCard>
 
       {/* AI 協作建議 */}

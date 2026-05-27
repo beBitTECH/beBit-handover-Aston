@@ -5,11 +5,9 @@ import StatusBadge from "@/components/StatusBadge";
 import { projects } from "@/data/projects";
 
 const onboardingSteps = [
-  { step: 1, label: "確認授權", description: "取得所有服務的存取權，確認帳號已就緒", href: "/access-registry" },
-  { step: 2, label: "瀏覽專案清單", description: "了解全部 6 個待交接專案的狀態與優先級", href: "/projects" },
+  { step: 1, label: "確認帳號權限", description: "查閱公司 Email 帳號下的 Google Drive 憑證文件，確認各系統存取權已就緒", href: "/access-registry" },
+  { step: 2, label: "瀏覽專案清單", description: "了解全部 5 個待交接專案的狀態與優先級", href: "/projects" },
   { step: 3, label: "閱讀優先專案交接頁", description: "競品廣告情報系統為最高優先級的進行中系統", href: "/projects/competitive-intelligence" },
-  { step: 4, label: "確認維護責任", description: "了解每日與每週的操作與檢查項目", href: "/runbook" },
-  { step: 5, label: "閱讀已知問題", description: "了解各系統現有的未解決問題與暫行措施", href: "/issues" },
 ];
 
 export default function Home() {
@@ -29,11 +27,8 @@ export default function Home() {
         <table className="w-full text-sm">
           <tbody>
             {[
-              { page: "專案清單", desc: "6 個待交接專案的狀態、負責人及優先級", href: "/projects" },
-              { page: "維護流程", desc: "日常、每週、每月操作清單及緊急應變步驟", href: "/runbook" },
-              { page: "權限與帳號清單", desc: "所有服務帳號及取得授權的聯絡方式", href: "/access-registry" },
-              { page: "已知問題與風險", desc: "系統現有未解決問題及暫行措施", href: "/issues" },
-              { page: "重要連結", desc: "各系統的 GitHub、Google Drive、儀表板等連結", href: "/links" },
+              { page: "專案清單", desc: "5 個待交接專案的狀態、負責人及優先級", href: "/projects" },
+              { page: "權限與帳號資訊", desc: "查找所有系統帳號與 API key 的方式", href: "/access-registry" },
             ].map(({ page, desc, href }) => (
               <tr key={href} className="border-b border-slate-100 last:border-0">
                 <td className="py-2.5 pr-4 w-48">

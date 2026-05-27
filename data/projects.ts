@@ -95,23 +95,6 @@ export const projects: Project[] = [
     detailHref: "/projects/creative-assets",
   },
   {
-    id: "fundraising-deck",
-    title: "募資簡報",
-    objective: "提供投資人溝通所需的執行長級簡報，涵蓋公司願景、產品進展與募資需求。",
-    output: "定稿投資人簡報（PPTX 及 PDF 版本）。",
-    status: "complete",
-    priority: "high",
-    successor: "[待指派 — 需主管核准]",
-    openIssues: [
-      "財務數據頁面需要每季更新",
-    ],
-    keyFiles: [
-      { label: "Google Drive（限制存取）", url: "[PLACEHOLDER — Drive URL — 限制存取]" },
-    ],
-    handoverNotes: "未經主管核准不得對外分享。對外分發前必須確認最新版本。",
-    detailHref: "/projects/fundraising-deck",
-  },
-  {
     id: "newsletter-research",
     title: "電子報研究",
     objective: "為 beBit 電子報的發行或改版提供受眾分析、競品研究及內容策略建議。",

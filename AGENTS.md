@@ -20,7 +20,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## 資安規則（不可妥協）
 
 - **禁止將真實密碼、API 金鑰、token 或私鑰提交至此 repo 的任何檔案。**
-- `data/credentials.ts` 中所有憑證值必須使用佔位文字（例如 `[PLACEHOLDER — 聯絡負責人]`）。
 - 未確認安全性前，不得以真實內部 URL 取代佔位連結。
 - 若在程式碼中發現真實憑證，立即標記並停止提交。
 - 佔位文字格式：`[PLACEHOLDER — 說明]` 或 `[PLACEHOLDER — ServiceName URL]`
@@ -29,12 +28,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## 內容規則
 
-- **專案資料存放於 `data/`** — 更新專案資訊、憑證、問題或連結時，請編輯 TypeScript 資料檔案，而非頁面檔案。
+- **專案資料存放於 `data/projects.ts`** — 更新專案資訊時，請編輯此資料檔案，而非頁面檔案。
 - **語言規則：** 所有使用者可見文字以繁體中文為主；英文僅用於專有名詞及技術產品名稱（如 GitHub、Vercel、Supabase、Next.js、SearchAPI、Groq、Google Sheets、Apps Script、Claude）。
 - **beBit 拼寫：** 此品牌名稱一律寫作 `beBit`，不使用 `BeBIT`、`bebit` 或其他變體。
 - **狀態值：** `"complete"`、`"in-progress"`、`"needs-attention"`、`"on-hold"`
 - **優先級值：** `"critical"`、`"high"`、`"medium"`、`"low"`
-- **佔位連結** 必須設定 `isPlaceholder: true`（`LinkItem` 類型）。
 
 ---
 

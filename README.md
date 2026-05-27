@@ -1,6 +1,6 @@
-# BeBIT Handover Hub
+# beBit 交接總覽
 
-Internal project handover documentation and successor onboarding website for BeBIT Tech.
+Internal project handover documentation and successor onboarding website for beBit Tech.
 
 **Confidential — Internal Use Only**
 
@@ -9,11 +9,8 @@ Internal project handover documentation and successor onboarding website for BeB
 ## What This Is
 
 A Next.js static documentation site that centralizes:
-- Project handover pages for all active BeBIT projects
-- Operational checklists and SOPs for live systems
-- An access and credentials registry (placeholders only — no real secrets)
-- Known issues, risks, and troubleshooting guides
-- Links to key repositories, files, and dashboards
+- Project handover pages for all active beBit projects
+- An account and credentials access note (no real secrets stored)
 
 ---
 
@@ -49,17 +46,13 @@ app/                        Next.js App Router pages
   layout.tsx                Root layout (sidebar, fonts)
   globals.css               Global styles
   projects/
-    page.tsx                Project Portfolio (all 6 projects)
+    page.tsx                Project Portfolio (5 projects)
     competitive-intelligence/page.tsx   Full CI system handover
     change-intelligence/page.tsx
     email-mvp/page.tsx
     creative-assets/page.tsx
-    fundraising-deck/page.tsx
     newsletter-research/page.tsx
-  access-registry/page.tsx  Access & Credentials Registry
-  runbook/page.tsx          SOP & Runbook checklists
-  issues/page.tsx           Known Issues & Risks
-  links/page.tsx            Links & Resources
+  access-registry/page.tsx  Account and credentials access note
 
 components/
   Sidebar.tsx               Navigation sidebar
@@ -71,9 +64,6 @@ components/
 
 data/
   projects.ts               Project definitions and metadata
-  credentials.ts            Access registry rows (placeholders only)
-  issues.ts                 Known issues and risks
-  links.ts                  Resource link sections
 ```
 
 ---
@@ -87,17 +77,6 @@ Edit `data/projects.ts`. Each object in the `projects` array drives the Project 
 1. Create `app/projects/[your-project-id]/page.tsx`
 2. Either use `ProjectDetailTemplate` (see existing pages) or write a custom page
 3. Add the route to the sidebar in `components/Sidebar.tsx`
-
-### Update access registry
-Edit `data/credentials.ts`. Add a new row following the `CredentialRow` interface.
-
-**Never add real passwords, API keys, or tokens.**
-
-### Update known issues
-Edit `data/issues.ts`. Each issue has an `id`, `system`, `issue`, `impact`, `workaround`, `owner`, `priority`, and `nextStep`.
-
-### Update links
-Edit `data/links.ts`. Each section has a `title`, `icon`, and array of link items. Set `isPlaceholder: true` for entries that don't yet have real URLs.
 
 ---
 
@@ -122,7 +101,6 @@ The output in `.next/` can be served with `npm start` or exported with `next exp
 - **Do not commit real credentials.** All sensitive values must use placeholders.
 - If you add links to internal tools, ensure those URLs require authentication before accessing sensitive data.
 - Treat this repository as potentially readable by anyone in the company.
-- Rotate any API keys listed in the Access & Credentials Registry immediately after handover.
 
 ---
 

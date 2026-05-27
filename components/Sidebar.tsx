@@ -3,39 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const navSections = [
-  {
-    label: "總覽",
-    items: [
-      { href: "/", label: "交接總覽" },
-      { href: "/projects", label: "專案清單" },
-    ],
-  },
-  {
-    label: "專案",
-    items: [
-      { href: "/projects/competitive-intelligence", label: "競品廣告情報系統" },
-      { href: "/projects/change-intelligence", label: "變動情報系統" },
-      { href: "/projects/email-mvp", label: "客戶網域郵件 MVP" },
-      { href: "/projects/creative-assets", label: "品牌視覺素材" },
-      { href: "/projects/fundraising-deck", label: "募資簡報" },
-      { href: "/projects/newsletter-research", label: "電子報研究" },
-    ],
-  },
-  {
-    label: "維運",
-    items: [
-      { href: "/runbook", label: "維護流程" },
-      { href: "/issues", label: "已知問題與風險" },
-    ],
-  },
-  {
-    label: "參考資料",
-    items: [
-      { href: "/access-registry", label: "權限與帳號清單" },
-      { href: "/links", label: "重要連結" },
-    ],
-  },
+const navItems = [
+  { href: "/", label: "交接總覽" },
+  { href: "/projects", label: "專案清單" },
+  { href: "/access-registry", label: "權限與帳號資訊" },
 ];
 
 export default function Sidebar() {
@@ -57,35 +28,28 @@ export default function Sidebar() {
         </div>
 
         <nav className="flex-1 overflow-y-auto py-4 px-3">
-          {navSections.map((section) => (
-            <div key={section.label} className="mb-5">
-              <div className="px-2 mb-1.5 text-xs font-semibold text-slate-400 uppercase tracking-widest">
-                {section.label}
-              </div>
-              <ul className="space-y-0.5">
-                {section.items.map((item) => {
-                  const active =
-                    item.href === "/"
-                      ? pathname === "/"
-                      : pathname === item.href || pathname.startsWith(item.href + "/");
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
-                          active
-                            ? "bg-blue-700 text-white font-medium"
-                            : "text-slate-300 hover:bg-slate-700 hover:text-white"
-                        }`}
-                      >
-                        <span className="truncate">{item.label}</span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+          <ul className="space-y-0.5">
+            {navItems.map((item) => {
+              const active =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname === item.href || pathname.startsWith(item.href + "/");
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
+                      active
+                        ? "bg-blue-700 text-white font-medium"
+                        : "text-slate-300 hover:bg-slate-700 hover:text-white"
+                    }`}
+                  >
+                    <span className="truncate">{item.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </nav>
 
         <div className="px-5 py-4 border-t border-slate-700 text-xs text-slate-500">

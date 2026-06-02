@@ -95,6 +95,26 @@ export const projects: Project[] = [
     detailHref: "/projects/creative-assets",
   },
   {
+    id: "banner-prompt-generator",
+    title: "Banner Prompt Generator",
+    objective: "將行銷人員的活動資訊轉換為結構化 AI 圖像生成指令，讓非設計人員也能產出接近發布品質的 Facebook 廣告素材。",
+    output: "已上線的單頁工具（GitHub Pages），涵蓋 6 大設計維度的參數化介面，並整合 Gemini API 自動改寫廣告文案。",
+    status: "complete",
+    priority: "medium",
+    successor: "[待指派]",
+    openIssues: [
+      "Gemini API Key 每次開啟瀏覽器需重新輸入，尚未做持久化",
+      "GPT 圖片生成為手動流程，無法批量自動化",
+      "中文字體由 GPT 生成時不可靠，需在 Canva 後製疊加",
+    ],
+    keyFiles: [
+      { label: "工具網址", url: "https://bebittech.github.io/banner-prompt-generator" },
+      { label: "GitHub Repo", url: "https://github.com/beBitTECH/banner-prompt-generator" },
+    ],
+    handoverNotes: "工具已上線且文件完整。接手者需自備 Gemini API Key，並熟悉 ChatGPT gpt-image-1 模型與 Canva Magic Layer 工作流程。",
+    detailHref: "/projects/banner-prompt-generator",
+  },
+  {
     id: "newsletter-research",
     title: "電子報研究",
     objective: "為 beBit 電子報的發行或改版提供受眾分析、競品研究及內容策略建議。",

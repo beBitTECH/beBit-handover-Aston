@@ -29,7 +29,7 @@ export default function ChangeIntelligencePage() {
           { label: "設計文件（Google Drive）", url: "[PLACEHOLDER — Drive URL]" },
           { label: "GitHub（如已建立）", url: "[PLACEHOLDER — GitHub URL 或 N/A]" },
         ],
-        risks: [
+        watchouts: [
           "監控目標網域清單尚未定案，無法進入完整實作",
           "告警機制尚未實作，目前僅為架構框架",
           "判定閾值若未校準，可能產生大量雜訊告警",

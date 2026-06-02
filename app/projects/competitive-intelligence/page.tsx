@@ -43,8 +43,15 @@ export default function CompetitiveIntelligencePage() {
         }
       />
 
-      {/* 系統說明 */}
-      <SectionCard title="系統說明" className="mb-6">
+      {/* 專案背景 */}
+      <SectionCard title="專案背景" className="mb-6">
+        <p className="text-sm text-slate-700 leading-relaxed">
+          過去競品廣告追蹤仰賴人工查找 Meta / LinkedIn Ad Library，資料分散、難以長期比較，也無法沉澱為可查詢的情報資產。本專案將競品廣告抓取、AI 分類、資料同步與 Dashboard 呈現串成一套低成本 pipeline，讓團隊可以定期追蹤競品活動主題、訊息策略與 Landing Page 方向。
+        </p>
+      </SectionCard>
+
+      {/* 專案目的 */}
+      <SectionCard title="專案目的" className="mb-6">
         <ul className="space-y-1.5">
           {[
             "每週透過 SearchAPI 抓取 Meta 及 LinkedIn 廣告庫中的競品廣告資料，以控制 API 成本與額度消耗",
@@ -59,8 +66,8 @@ export default function CompetitiveIntelligencePage() {
         </p>
       </SectionCard>
 
-      {/* 技術架構 */}
-      <SectionCard title="技術架構" className="mb-6">
+      {/* 目前產出 */}
+      <SectionCard title="目前產出" className="mb-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -117,8 +124,8 @@ export default function CompetitiveIntelligencePage() {
         <InfoRow label="Google Drive 圖片資料夾（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Drive URL]</span>} />
       </SectionCard>
 
-      {/* 已知問題 */}
-      <SectionCard title="已知問題" className="mb-6">
+      {/* 潛在注意事項 */}
+      <SectionCard title="潛在注意事項" className="mb-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>

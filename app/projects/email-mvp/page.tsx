@@ -29,7 +29,7 @@ export default function EmailMvpPage() {
           { label: "GitHub", url: "[PLACEHOLDER — GitHub URL]" },
           { label: "DNS 設定說明", url: "[PLACEHOLDER — Drive URL 或文件段落]" },
         ],
-        risks: [
+        watchouts: [
           "DNS 設定步驟尚未完整記錄，可能造成設定錯誤",
           "子網域邊界情境（如 mail.customer.com）尚未處理",
           "SPF/DKIM/DMARC 設定錯誤可能影響郵件送達率",

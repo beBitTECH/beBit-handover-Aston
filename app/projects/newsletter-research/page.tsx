@@ -29,7 +29,7 @@ export default function NewsletterResearchPage() {
           { label: "內容策略文件（Google Drive）", url: "[PLACEHOLDER — Drive URL]" },
           { label: "內容日曆範本", url: "[PLACEHOLDER — Drive URL 或 Sheets URL]" },
         ],
-        risks: [
+        watchouts: [
           "策略已就緒但尚未執行，延遲將降低研究資料的時效性",
           "發行平台尚未選定，可能需要額外的技術設定時間",
           "若超過一季未開始執行，研究資料的參考價值將下降",

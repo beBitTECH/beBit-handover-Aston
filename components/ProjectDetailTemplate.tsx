@@ -5,24 +5,42 @@ import InfoRow from "@/components/InfoRow";
 
 export interface ProjectDetail {
   title: string;
+  description?: string;
   status: "complete" | "in-progress" | "needs-attention" | "on-hold";
   priority: "critical" | "high" | "medium" | "low";
+  background?: string;
   purpose: string[];
   outputs: string[];
   handoverSteps: string[];
   links: { label: string; url: string }[];
-  risks: string[];
+  watchouts: string[];
   aiHint?: string;
+  aiPrompt?: string;
+  otherNotes?: string[];
 }
 
-const AI_PROMPT =
-  "請先閱讀 README.md、AGENTS.md 與 docs/ 資料夾，接著用簡潔方式說明這個專案如何運作、我應該先檢查哪裡，以及如何排查以下問題：[貼上問題]";
+const DEFAULT_AI_PROMPT = `請先閱讀 README.md、AGENTS.md、CLAUDE.md 與 docs/ 資料夾。
+
+我是這個專案的新接手者，請用簡潔方式說明：
+1. 這個系統在做什麼
+2. 目前狀態與已完成的產出
+3. 我應該先做什麼來接手
+4. 哪些設定或功能不能隨便改
+5. 如何排查以下問題：[貼上問題或 log]`;
+
+function isRealUrl(url: string) {
+  return url.startsWith("http://") || url.startsWith("https://");
+}
 
 export default function ProjectDetailTemplate({ project }: { project: ProjectDetail }) {
+  const prompt = project.aiPrompt ?? DEFAULT_AI_PROMPT;
+  const hasOtherNotes = project.otherNotes && project.otherNotes.length > 0;
+
   return (
     <div>
       <PageHeader
         title={project.title}
+        description={project.description}
         meta={
           <>
             <StatusBadge status={project.status} />
@@ -31,28 +49,32 @@ export default function ProjectDetailTemplate({ project }: { project: ProjectDet
         }
       />
 
-      <div className="grid gap-6 lg:grid-cols-2 mb-6">
-        <SectionCard title="專案目的">
-          <ul className="space-y-1.5">
-            {project.purpose.map((p, i) => (
-              <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">
-                {p}
-              </li>
-            ))}
-          </ul>
+      {/* 專案背景 */}
+      {project.background && (
+        <SectionCard title="專案背景" className="mb-6">
+          <p className="text-sm text-slate-700 leading-relaxed">{project.background}</p>
         </SectionCard>
+      )}
 
-        <SectionCard title="目前產出">
-          <ul className="space-y-1.5">
-            {project.outputs.map((o, i) => (
-              <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">
-                {o}
-              </li>
-            ))}
-          </ul>
-        </SectionCard>
-      </div>
+      {/* 專案目的 */}
+      <SectionCard title="專案目的" className="mb-6">
+        <ul className="space-y-1.5">
+          {project.purpose.map((p, i) => (
+            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{p}</li>
+          ))}
+        </ul>
+      </SectionCard>
 
+      {/* 目前產出 */}
+      <SectionCard title="目前產出" className="mb-6">
+        <ul className="space-y-1.5">
+          {project.outputs.map((o, i) => (
+            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{o}</li>
+          ))}
+        </ul>
+      </SectionCard>
+
+      {/* 接手步驟 */}
       <SectionCard title="接手步驟" className="mb-6">
         <ol className="space-y-2">
           {project.handoverSteps.map((step, i) => (
@@ -64,43 +86,58 @@ export default function ProjectDetailTemplate({ project }: { project: ProjectDet
         </ol>
       </SectionCard>
 
+      {/* 重要連結 */}
       <SectionCard title="重要連結" className="mb-6">
         {project.links.map((l, i) => (
           <InfoRow
             key={i}
             label={l.label}
-            value={<span className="text-slate-400 italic text-sm">{l.url}</span>}
+            value={
+              isRealUrl(l.url) ? (
+                <a href={l.url} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
+                  {l.url}
+                </a>
+              ) : (
+                <span className="italic text-slate-400">{l.url}</span>
+              )
+            }
           />
         ))}
       </SectionCard>
 
-      <SectionCard title="關鍵風險" className="mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <tbody>
-              {project.risks.map((r, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0">
-                  <td className="py-2 pr-3 text-slate-400 text-xs font-mono w-6 shrink-0">{i + 1}</td>
-                  <td className="py-2 text-slate-700">{r}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* 潛在注意事項 */}
+      <SectionCard title="潛在注意事項" className="mb-6">
+        <ul className="space-y-1.5">
+          {project.watchouts.map((w, i) => (
+            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-amber-200">{w}</li>
+          ))}
+        </ul>
       </SectionCard>
 
-      <SectionCard title="AI 協作建議">
+      {/* AI 協作建議 */}
+      <SectionCard title="AI 協作建議" className={hasOtherNotes ? "mb-6" : ""}>
         {project.aiHint && (
           <p className="text-sm text-slate-600 mb-3">{project.aiHint}</p>
         )}
         <div className="bg-slate-50 border border-slate-200 rounded p-3">
           <div className="text-xs text-slate-400 mb-1.5 font-medium uppercase tracking-wide">提示詞範例</div>
-          <p className="text-sm text-slate-700 leading-relaxed">{AI_PROMPT}</p>
+          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{prompt}</p>
         </div>
         <p className="text-xs text-slate-400 mt-2">
-          請先確認 AI 工具已讀取 GitHub repo 的技術文件（README.md、docs/ 資料夾），再進行問答。
+          請先確認 AI 工具已讀取 GitHub repo 的技術文件（README.md、AGENTS.md、docs/ 資料夾），再進行問答。
         </p>
       </SectionCard>
+
+      {/* 其他注意事項 */}
+      {hasOtherNotes && (
+        <SectionCard title="其他注意事項">
+          <ul className="space-y-1.5">
+            {project.otherNotes!.map((note, i) => (
+              <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{note}</li>
+            ))}
+          </ul>
+        </SectionCard>
+      )}
     </div>
   );
 }

@@ -3,96 +3,38 @@ import SectionCard from "@/components/SectionCard";
 import StatusBadge from "@/components/StatusBadge";
 import InfoRow from "@/components/InfoRow";
 
-const systemStatus = [
-  { item: "資料抓取", status: "每週執行一次：SearchAPI 抓取 Meta / LinkedIn 廣告" },
-  { item: "AI 分析", status: "每日兩次：Groq 處理 ai_analyzed = FALSE 的待分析記錄" },
-  { item: "資料同步", status: "AI 分析完成後即觸發 Supabase 同步" },
-  { item: "Dashboard", status: "Vercel 前端從 Supabase 讀取資料並呈現" },
-  { item: "Google Sheets 選單", status: "僅顯示 7 項生產操作；測試與修復功能已隱藏但仍可從 Script Editor 呼叫" },
-  { item: "GitHub 交接文件", status: "Repo 已含 AGENTS.md、CLAUDE.md、docs/ai/*、RUNBOOK.md 等 AI agent 入口文件" },
+const architecture = [
+  { layer: "資料來源", tool: "SearchAPI", note: "呼叫 Meta Ad Library 及 LinkedIn Ad Library REST API" },
+  { layer: "暫存層", tool: "Google Sheets", note: "原始及標準化廣告記錄在此進行暫存與清理" },
+  { layer: "自動化", tool: "Google Apps Script", note: "資料抓取、標準化、AI 分析及 Supabase 同步" },
+  { layer: "AI 分析", tool: "Groq", note: "對廣告進行關鍵字分類、活動類型與策略意圖分析" },
+  { layer: "資料庫", tool: "Supabase", note: "儲存標準化及已分類的廣告記錄" },
+  { layer: "前端", tool: "Next.js + Vercel", note: "提供篩選、搜尋及 AI 標籤的廣告儀表板" },
 ];
 
-const takeoverSteps = [
-  {
-    step: "Step 1",
-    action:
-      "Clone GitHub repo，以 Claude Code / Codex 開啟。要求 AI 讀取 README.md、AGENTS.md、CLAUDE.md 與 docs/。",
-    criteria: "AI 可說明系統架構、例行排程與主要風險。",
-  },
-  {
-    step: "Step 2",
-    action:
-      "確認各系統運作：Vercel Dashboard 有資料、Google Sheet 有近期記錄、Apps Script 觸發器存在、Supabase 資料表列數與 Sheet 相符。",
-    criteria: "Dashboard 正常載入；觸發器存在；Apps Script 執行記錄無 Critical 錯誤。",
-  },
-  {
-    step: "Step 3",
-    action:
-      "每週維護：查看 Apps Script 執行記錄、Dashboard 資料更新時間，以及 AI 分類標籤品質（keyword_tags 與 campaign_type）。",
-    criteria: "無 Critical 錯誤；資料持續更新；AI 標籤維持合理品質。",
-  },
+const knownIssues = [
+  { issue: "AI 分類結果需要人工抽樣審查", impact: "分類錯誤可能影響下游分析準確性" },
+  { issue: "SearchAPI 可能回傳廣告主辨識錯誤", impact: "可能抓到非目標品牌廣告，需依 special-case rules 抽查" },
+  { issue: "Groq 有用量限制", impact: "AI 分析可能分批完成，透過每日兩次 backfill 逐步補齊" },
+  { issue: "月活躍廣告數為 proxy", impact: "歷史月份使用 first_seen <= monthEnd <= last_seen 推估，不是真實 daily snapshot" },
+  { issue: "Apps Script live code 不會自動跟 GitHub 同步", impact: "改 Code.gs 後須手動貼回 bound Apps Script project" },
 ];
 
-const constraints = [
-  {
-    rule: "不可將 runDailyAdPipeline 設為每日觸發",
-    reason: "SearchAPI 有月費用上限，全管道每週一次已足夠；Groq backfill 另外每日兩次。",
-  },
-  {
-    rule: "不可修改 Sheet HEADERS 欄位順序或名稱",
-    reason: "HEADERS 是 Apps Script 與 Supabase 的共用 schema 合約，任何改動都會破壞同步。",
-  },
-  {
-    rule: "不可互換 ad_link 與 ad_library_url",
-    reason: "ad_link 是廣告外部 Landing Page；ad_library_url 是 LinkedIn Ad Library 詳情頁。互換將污染所有 LinkedIn 廣告的 Landing Page 分析。",
-  },
-  {
-    rule: "不可啟用 keyword evidence fields（KEYWORD_EVIDENCE_FIELDS_ENABLED）",
-    reason: "需先在 Supabase 執行對應的 ALTER TABLE DDL，否則同步將靜默失敗。",
-  },
-  {
-    rule: "不可在 GitHub 編輯 Code.gs 後視為已部署",
-    reason: "Code.gs 需手動複製至 bound Apps Script 專案的 Script Editor，推送 GitHub 並不會更新線上執行的程式。",
-  },
-];
+const AI_PROMPT = `請先閱讀 README.md、AGENTS.md、CLAUDE.md 與 docs/ 資料夾。
 
-const limitations = [
-  {
-    item: "每月活躍廣告數為代理指標，非每日真實快照",
-    note: "以 first_seen / last_seen 區間推算歷史月份；當月使用最新 status，詳見 Dashboard 說明文字。",
-  },
-  {
-    item: "Groq 有速率上限，AI 分析可能分批逐步完成",
-    note: "重新執行 Run AI Analysis 可繼續處理未完成的 backlog，不影響已分析記錄。",
-  },
-  {
-    item: "SearchAPI 可能誤判廣告主，需定期人工抽樣確認",
-    note: "Code.gs 中已設定廣告主 exact-match 過濾邏輯，但新品牌或市場上線時需人工驗證。",
-  },
-  {
-    item: "GitHub 的 Code.gs 不會自動同步至 bound Apps Script 專案",
-    note: "每次修改後需手動將最新版本複製至 Script Editor，並確認函式名稱與 onOpen 選單項目一致。",
-  },
-];
-
-const AI_ONBOARDING_PROMPT = `Read README.md, AGENTS.md, CLAUDE.md, and docs/ first.
-
-I am the incoming PIC for this project. Please explain:
-1. What this system does
-2. How the current routine runs
-3. What I should check first
-4. What I must not change without confirmation
-5. How to debug the issue below
-
-Issue:
-[貼上問題或 log]`;
+我是這個專案的新接手者，請用簡潔方式說明：
+1. 這個系統在做什麼
+2. 目前 routine 如何運作
+3. 我應該先檢查哪裡
+4. 哪些設定不能隨便改
+5. 如何排查以下問題：[貼上問題或 log]`;
 
 export default function CompetitiveIntelligencePage() {
   return (
     <div>
       <PageHeader
         title="競品廣告情報系統"
-        description="Meta 與 LinkedIn 競品廣告的自動化追蹤管道與分析儀表板。"
+        description="追蹤 Meta 與 LinkedIn 競品廣告的自動化管道及分析儀表板。本頁為接手者的主要參考文件。"
         meta={
           <>
             <StatusBadge status="in-progress" />
@@ -101,152 +43,114 @@ export default function CompetitiveIntelligencePage() {
         }
       />
 
-      {/* 背景 */}
-      <SectionCard title="背景" className="mb-6">
-        <p className="text-sm text-slate-700 leading-relaxed">
-          過去競品廣告追蹤仰賴人工查找 Meta / LinkedIn Ad Library，資料分散、難以長期比較，也無法沉澱為可查詢的情報資產。本專案將競品廣告抓取、AI 分類、資料同步與 Dashboard 呈現串成一套低成本 pipeline，讓團隊可以定期追蹤競品活動主題、訊息策略與 Landing Page 方向。
+      {/* 系統說明 */}
+      <SectionCard title="系統說明" className="mb-6">
+        <ul className="space-y-1.5">
+          {[
+            "每週透過 SearchAPI 抓取 Meta 及 LinkedIn 廣告庫中的競品廣告資料，以控制 API 成本與額度消耗",
+            "透過 Groq LLM 對尚未分析的廣告進行關鍵字分類與策略意圖分析，並於分析後同步 Supabase",
+            "分析結果存入 Supabase，並透過 Vercel 上的 Next.js 儀表板呈現",
+          ].map((p, i) => (
+            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{p}</li>
+          ))}
+        </ul>
+        <p className="text-xs text-slate-400 mt-3">
+          Routine 現況：SearchAPI fetch 改為每週一次；Groq AI analysis + Supabase sync 改為每日兩次。不要把 runDailyAdPipeline 設為每日，避免 SearchAPI 成本與額度消耗過高。
         </p>
       </SectionCard>
 
-      {/* 目前系統狀態 */}
-      <SectionCard title="目前系統狀態" className="mb-6">
+      {/* 技術架構 */}
+      <SectionCard title="技術架構" className="mb-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-6 w-36">項目</th>
-                <th className="pb-2 font-semibold text-slate-500">目前狀態</th>
+                <th className="pb-2 font-semibold text-slate-500 pr-4 w-28">層級</th>
+                <th className="pb-2 font-semibold text-slate-500 pr-4 w-36">工具</th>
+                <th className="pb-2 font-semibold text-slate-500">說明</th>
               </tr>
             </thead>
             <tbody>
-              {systemStatus.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0">
-                  <td className="py-2.5 pr-6 font-medium text-slate-700 align-top">{row.item}</td>
-                  <td className="py-2.5 text-slate-600">{row.status}</td>
+              {architecture.map((row) => (
+                <tr key={row.layer} className="border-b border-slate-100 last:border-0">
+                  <td className="py-2.5 pr-4 font-medium text-slate-700">{row.layer}</td>
+                  <td className="py-2.5 pr-4 text-blue-700 font-medium">{row.tool}</td>
+                  <td className="py-2.5 text-slate-600">{row.note}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <p className="text-xs text-slate-400 mt-3">
+          完整技術文件請參閱 GitHub repo 內的 README.md 及 docs/ 資料夾。
+        </p>
       </SectionCard>
 
-      {/* 接手三步驟 */}
-      <SectionCard title="接手三步驟" className="mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-20">步驟</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4">動作</th>
-                <th className="pb-2 font-semibold text-slate-500 w-56">完成標準</th>
-              </tr>
-            </thead>
-            <tbody>
-              {takeoverSteps.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 font-medium text-blue-700">{row.step}</td>
-                  <td className="py-2.5 pr-4 text-slate-700">{row.action}</td>
-                  <td className="py-2.5 text-slate-500">{row.criteria}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </SectionCard>
-
-      {/* 不可輕易修改的設定 */}
-      <SectionCard title="不可輕易修改的設定" className="mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-80">禁止動作</th>
-                <th className="pb-2 font-semibold text-slate-500">原因</th>
-              </tr>
-            </thead>
-            <tbody>
-              {constraints.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 text-slate-800">{row.rule}</td>
-                  <td className="py-2.5 text-slate-500">{row.reason}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* 接手步驟 */}
+      <SectionCard title="接手步驟" className="mb-6">
+        <ol className="space-y-2">
+          {[
+            "Clone GitHub repo，先請 Claude Code / Codex 讀取 README.md、AGENTS.md、CLAUDE.md 與 docs/ 資料夾",
+            "確認 Vercel 儀表板可正常開啟，並檢查 Supabase 是否仍有 meta_ads / linkedin_ads 資料",
+            "開啟 Google Sheet，確認「競品廣告系統」選單只保留 production 操作，並執行 Preview Tracking Scope",
+            "開啟 Apps Script → Triggers，確認 runDailyAdPipeline 為每週執行，runAiAnalysisAndSync 為每日兩次執行",
+            "每週檢查 Apps Script executions、dashboard 資料更新狀態與 AI 分類品質",
+            "若需修改 Code.gs，修改 GitHub 後仍須手動同步到 bound Apps Script project",
+          ].map((step, i) => (
+            <li key={i} className="flex gap-3 text-sm text-slate-700">
+              <span className="shrink-0 w-5 text-slate-400 font-medium text-right">{i + 1}.</span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
       </SectionCard>
 
       {/* 重要連結 */}
       <SectionCard title="重要連結" className="mb-6">
-        <InfoRow
-          label="正式儀表板"
-          value={
-            <a href="https://competitor-ad-intelligence-xi.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
-              competitor-ad-intelligence-xi.vercel.app
-            </a>
-          }
-        />
-        <InfoRow
-          label="追蹤範圍"
-          value={
-            <a href="https://competitor-ad-intelligence-xi.vercel.app/tracking-scope" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
-              competitor-ad-intelligence-xi.vercel.app/tracking-scope
-            </a>
-          }
-        />
-        <InfoRow
-          label="維護手冊"
-          value={
-            <a href="https://competitor-ad-intelligence-xi.vercel.app/maintenance-guide" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
-              competitor-ad-intelligence-xi.vercel.app/maintenance-guide
-            </a>
-          }
-        />
-        <InfoRow
-          label="GitHub Repository"
-          value={
-            <a href="https://github.com/beBitTECH/competitor-ad-intelligence" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
-              beBitTECH/competitor-ad-intelligence
-            </a>
-          }
-        />
+        <InfoRow label="正式儀表板" value={<a href="https://competitor-ad-intelligence-xi.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">competitor-ad-intelligence-xi.vercel.app</a>} />
+        <InfoRow label="追蹤範圍" value={<a href="https://competitor-ad-intelligence-xi.vercel.app/tracking-scope" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">competitor-ad-intelligence-xi.vercel.app/tracking-scope</a>} />
+        <InfoRow label="維護手冊" value={<a href="https://competitor-ad-intelligence-xi.vercel.app/maintenance-guide" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">competitor-ad-intelligence-xi.vercel.app/maintenance-guide</a>} />
+        <InfoRow label="GitHub Repository" value={<a href="https://github.com/beBitTECH/competitor-ad-intelligence" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">beBitTECH/competitor-ad-intelligence</a>} />
         <InfoRow label="Google Sheets（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Sheets URL]</span>} />
         <InfoRow label="Apps Script（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Apps Script URL]</span>} />
         <InfoRow label="Supabase（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Supabase URL]</span>} />
         <InfoRow label="Google Drive 圖片資料夾（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Drive URL]</span>} />
       </SectionCard>
 
-      {/* AI 接手提示詞 */}
-      <SectionCard title="AI 接手提示詞" className="mb-6">
-        <p className="text-sm text-slate-600 mb-3">
-          以 Claude Code、Codex 或其他 AI 工具開啟此 repo 時，將以下提示詞直接貼入。確認 AI 讀取完文件後再開始作業。
-        </p>
-        <div className="bg-slate-50 border border-slate-200 rounded p-3">
-          <div className="text-xs text-slate-400 mb-1.5 font-medium uppercase tracking-wide">複製此提示詞</div>
-          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{AI_ONBOARDING_PROMPT}</p>
-        </div>
-      </SectionCard>
-
-      {/* 已知限制 */}
-      <SectionCard title="已知限制">
+      {/* 已知問題 */}
+      <SectionCard title="已知問題" className="mb-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-80">限制</th>
-                <th className="pb-2 font-semibold text-slate-500">備註</th>
+                <th className="pb-2 font-semibold text-slate-500 pr-4">問題</th>
+                <th className="pb-2 font-semibold text-slate-500">影響</th>
               </tr>
             </thead>
             <tbody>
-              {limitations.map((row, i) => (
+              {knownIssues.map((row, i) => (
                 <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 text-slate-800">{row.item}</td>
-                  <td className="py-2.5 text-slate-500">{row.note}</td>
+                  <td className="py-2.5 pr-4 text-slate-800">{row.issue}</td>
+                  <td className="py-2.5 text-slate-600">{row.impact}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      </SectionCard>
+
+      {/* AI 協作建議 */}
+      <SectionCard title="AI 協作建議">
+        <p className="text-sm text-slate-600 mb-3">
+          遇到問題時，可將此提示詞複製貼上給 Claude Code 或其他 AI 開發工具，並確認工具已讀取 GitHub repo 的技術文件。
+        </p>
+        <div className="bg-slate-50 border border-slate-200 rounded p-3">
+          <div className="text-xs text-slate-400 mb-1.5 font-medium uppercase tracking-wide">提示詞範例</div>
+          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{AI_PROMPT}</p>
+        </div>
+        <p className="text-xs text-slate-400 mt-2">
+          詳細技術文件位於 GitHub repo 內的 docs/HANDOVER.md、docs/RUNBOOK.md、docs/TROUBLESHOOTING.md 及 docs/DATA_DICTIONARY.md。
+        </p>
       </SectionCard>
     </div>
   );

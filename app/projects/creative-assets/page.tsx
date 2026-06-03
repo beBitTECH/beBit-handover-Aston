@@ -30,7 +30,7 @@ export default function CreativeAssetsPage() {
           { label: "Logo 檔案（所有格式）", url: "[PLACEHOLDER — Drive subfolder URL]" },
           { label: "簡報範本", url: "[PLACEHOLDER — Drive subfolder URL]" },
         ],
-        risks: [
+        watchouts: [
           "部分檔案尚未套用命名規則，需要事後整理",
           "Canva 工作空間存取權與個人帳號綁定，需要移轉",
           "Google Drive 資料夾外部分享設定需要審查",

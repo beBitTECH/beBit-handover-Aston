@@ -40,24 +40,6 @@ export const projects: Project[] = [
     detailHref: "/projects/competitive-intelligence",
   },
   {
-    id: "change-intelligence",
-    title: "變動情報系統",
-    objective: "監控競品與合作夥伴網站的重大變動，即時通報策略性異動。",
-    output: "研究原型及初步變動追蹤架構框架。",
-    status: "in-progress",
-    statusLabel: "開發中",
-    priority: "low",
-    openIssues: [
-      "監控目標網域清單尚未定案",
-      "告警機制尚未實作",
-    ],
-    keyFiles: [
-      { label: "設計文件（Google Drive）", url: "[PLACEHOLDER — Drive URL]" },
-    ],
-    handoverNotes: "早期階段專案，請先閱讀設計文件再進行後續開發。",
-    detailHref: "/projects/change-intelligence",
-  },
-  {
     id: "email-mvp",
     title: "競品培育郵件情報",
     objective: "驗證 Custom Domain + Business Email 是否能提升獲取競品 nurturing 郵件的機率，補充廣告情報以外的競品行銷資訊。",
@@ -95,15 +77,19 @@ export const projects: Project[] = [
   {
     id: "newsletter-research",
     title: "電子報研究",
-    objective: "為 beBit 電子報的發行或改版提供受眾分析、競品研究及內容策略建議。",
-    output: "研究報告及內容策略文件，包含內容日曆框架。",
+    objective: "建立 AI 輔助市場情報引擎（策略長讀報特刊），自動化抓取與篩選全球 MarTech / SaaS / AI 趨勢，分級分發給全公司受眾。",
+    output: "完整系統架構設計（含 AI Prompt 範本、範本文章與三篇測試電子報），人工調整比例低於 5%。",
     status: "on-hold",
+    statusLabel: "已暫停",
     priority: "low",
-    openIssues: [],
-    keyFiles: [
-      { label: "研究報告（Google Drive）", url: "[PLACEHOLDER — Drive URL]" },
+    openIssues: [
+      "社群媒體（Twitter/X、Threads）無穩定自動化抓取方案",
+      "LLM 批次評分流程尚未完全自動化",
     ],
-    handoverNotes: "內容策略已就緒，專案暫停執行中。若重啟，應先與行銷負責人確認方向。",
+    keyFiles: [
+      { label: "Prompt 範本與投影片（Google Drive）", url: "[PLACEHOLDER — Drive URL]" },
+    ],
+    handoverNotes: "系統設計完整，部分流程尚待實作。Prompt 範本、範本文章與完整投影片均存放於 Google Drive，可直接取用。",
     detailHref: "/projects/newsletter-research",
   },
 ];

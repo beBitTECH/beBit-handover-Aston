@@ -6,7 +6,7 @@ import { projects } from "@/data/projects";
 
 const onboardingSteps = [
   { step: 1, label: "確認帳號權限", description: "查閱公司 Email 帳號下的 Google Drive 憑證文件，確認各系統存取權已就緒", href: "/access-registry" },
-  { step: 2, label: "瀏覽專案清單", description: "了解全部 5 個待交接專案的狀態與優先級", href: "/projects" },
+  { step: 2, label: "瀏覽專案清單", description: "了解全部 4 個待交接專案的狀態與優先級", href: "/projects" },
   { step: 3, label: "閱讀優先專案交接頁", description: "競品廣告情報系統為最高優先級，目前已完成並持續維運", href: "/projects/competitive-intelligence" },
 ];
 
@@ -27,7 +27,7 @@ export default function Home() {
         <table className="w-full text-sm">
           <tbody>
             {[
-              { page: "專案清單", desc: "5 個待交接專案的狀態、負責人及優先級", href: "/projects" },
+              { page: "專案清單", desc: "4 個待交接專案的狀態與優先級", href: "/projects" },
               { page: "權限與帳號資訊", desc: "查找所有系統帳號與 API key 的方式", href: "/access-registry" },
             ].map(({ page, desc, href }) => (
               <tr key={href} className="border-b border-slate-100 last:border-0">

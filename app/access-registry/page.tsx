@@ -14,7 +14,7 @@ export default function AccessRegistryPage() {
         }
       />
 
-      <SectionCard>
+      <SectionCard className="mb-6">
         <p className="text-sm text-slate-700 mb-3">
           所有系統相關的帳號、密碼與 API key 已統一整理於公司帳號：
         </p>
@@ -45,6 +45,29 @@ export default function AccessRegistryPage() {
               <span>更新 API key 後，請先執行小範圍測試，確認資料抓取與 AI 分析正常</span>
             </li>
           </ul>
+        </div>
+      </SectionCard>
+      <SectionCard>
+        <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">交接人聯絡方式</div>
+        <p className="text-sm text-slate-700 mb-4 leading-relaxed">
+          這份網站是我實習期間從零建立的。如果接手後遇到任何問題——無論是系統操作、架構理解，或只是想確認某個細節——歡迎直接聯絡我，我很樂意協助。
+        </p>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide w-12 pt-0.5 shrink-0">Email</span>
+            <a
+              href="mailto:astonhc.lu@gmail.com"
+              className="text-sm text-blue-700 hover:underline font-medium"
+            >
+              astonhc.lu@gmail.com
+            </a>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wide w-12 pt-0.5 shrink-0">其他</span>
+            <span className="text-sm text-slate-600">
+              也可以透過 LinkedIn 或 Instagram 找到我，搜尋 Aston Lu 即可。
+            </span>
+          </div>
         </div>
       </SectionCard>
     </div>

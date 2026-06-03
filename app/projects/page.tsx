@@ -19,7 +19,7 @@ export default function ProjectsPage() {
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="text-base font-semibold text-slate-900">{project.title}</h2>
-                  <StatusBadge status={project.status} />
+                  <StatusBadge status={project.status} label={project.statusLabel} />
                   <StatusBadge status={project.priority} />
                 </div>
                 <p className="mt-1 text-sm text-slate-600">{project.objective}</p>
@@ -34,14 +34,10 @@ export default function ProjectsPage() {
               )}
             </div>
 
-            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <div>
                 <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">目前產出</div>
                 <p className="text-sm text-slate-700">{project.output}</p>
-              </div>
-              <div>
-                <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">接手者</div>
-                <p className="text-sm text-slate-500 italic">{project.successor}</p>
               </div>
               <div>
                 <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">交接備註</div>

@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 const projectChildren = [
   { href: "/projects/competitive-intelligence", label: "競品廣告情報系統" },
   { href: "/projects/change-intelligence", label: "變動情報系統" },
-  { href: "/projects/email-mvp", label: "客戶網域郵件 MVP" },
-  { href: "/projects/creative-assets", label: "品牌視覺素材" },
+  { href: "/projects/email-mvp", label: "競品培育郵件情報" },
+  { href: "/projects/banner-prompt-generator", label: "廣告提示詞生成器" },
   { href: "/projects/newsletter-research", label: "電子報研究" },
 ];
 

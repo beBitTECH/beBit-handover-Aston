@@ -7,7 +7,7 @@ import { projects } from "@/data/projects";
 const onboardingSteps = [
   { step: 1, label: "確認帳號權限", description: "查閱公司 Email 帳號下的 Google Drive 憑證文件，確認各系統存取權已就緒", href: "/access-registry" },
   { step: 2, label: "瀏覽專案清單", description: "了解全部 5 個待交接專案的狀態與優先級", href: "/projects" },
-  { step: 3, label: "閱讀優先專案交接頁", description: "競品廣告情報系統為最高優先級的進行中系統", href: "/projects/competitive-intelligence" },
+  { step: 3, label: "閱讀優先專案交接頁", description: "競品廣告情報系統為最高優先級，目前已完成並持續維運", href: "/projects/competitive-intelligence" },
 ];
 
 export default function Home() {
@@ -66,8 +66,7 @@ export default function Home() {
               <tr className="text-left border-b border-slate-200">
                 <th className="pb-2 font-semibold text-slate-500 pr-4">專案名稱</th>
                 <th className="pb-2 font-semibold text-slate-500 pr-4">優先級</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4">狀態</th>
-                <th className="pb-2 font-semibold text-slate-500">接手者</th>
+                <th className="pb-2 font-semibold text-slate-500">狀態</th>
               </tr>
             </thead>
             <tbody>
@@ -85,10 +84,9 @@ export default function Home() {
                   <td className="py-2.5 pr-4">
                     <StatusBadge status={p.priority} />
                   </td>
-                  <td className="py-2.5 pr-4">
-                    <StatusBadge status={p.status} />
+                  <td className="py-2.5">
+                    <StatusBadge status={p.status} label={p.statusLabel} />
                   </td>
-                  <td className="py-2.5 text-slate-500 italic text-xs">{p.successor}</td>
                 </tr>
               ))}
             </tbody>

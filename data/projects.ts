@@ -78,7 +78,7 @@ export const projects: Project[] = [
   {
     id: "newsletter-research",
     title: "電子報研究",
-    objective: "設計 AI 輔助市場情報引擎（策略長讀報特刊），涵蓋 Feedly Pro × Gemini Pro × Apps Script 全工具鏈，自動化抓取、LLM 評分篩選全球 MarTech / SaaS / AI 趨勢，按 Tier 分級分發給全公司受眾。",
+    objective: "設計 AI 輔助市場情報引擎（策略長讀報特刊），以 Gemini Pro × Apps Script 為核心工具鏈，自動化抓取、LLM 評分篩選全球 MarTech / SaaS / AI 趨勢，按 Tier 分級分發給全公司受眾。（注：Feedly Pro 訂閱已取消，重啟時需重新評估抓取工具）",
     output: "完整系統架構設計、AI Prompt 範本、範本文章，以及三篇測試電子報（實測人工調整語句比例低於 5%）。",
     status: "on-hold",
     statusLabel: "已暫停",

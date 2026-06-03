@@ -157,7 +157,7 @@ interface RNode { title: string; sublabel: string | null; tool: string | null; a
 
 function HorizontalResearchFlow() {
   const nodes: RNode[] = [
-    { title: "找到好的主題", sublabel: "人工掃描，與 AI 討論方向", tool: "Feedly", annotation: "👤 人工介入" },
+    { title: "找到好的主題", sublabel: "人工掃描，與 AI 討論方向", tool: "Feedly（已取消）", annotation: "👤 人工介入" },
     { title: "深度研究", sublabel: "廣泛蒐集相關資料", tool: "Gemini Pro", annotation: null },
     { title: "轉寫成文章", sublabel: "依 Prompt 範本產出", tool: "Gemini Pro", annotation: null },
     { title: "審稿與美編", sublabel: "Gmail Layout，視需要插圖", tool: "Gmail", annotation: "👤 人工介入" },
@@ -288,14 +288,24 @@ export default function NewsletterResearchPage() {
               </thead>
               <tbody>
                 {[
-                  ["Gemini Pro (Google Workspace)", "深度研究、文章撰寫、內容統整"],
-                  ["Claude（公司版）", "輔助分析、Prompt 設計、內容潤色"],
-                  ["Feedly Pro", "資料訂閱抓取、AI Feed 篩選"],
-                  ["IFTTT Pro+", "跨平台自動化串接"],
-                ].map(([tool, use], i) => (
+                  ["Gemini Pro (Google Workspace)", "深度研究、文章撰寫、內容統整", false],
+                  ["Claude（公司版）", "輔助分析、Prompt 設計、內容潤色", false],
+                  ["Feedly Pro", "資料訂閱抓取、AI Feed 篩選", "8/15"],
+                  ["IFTTT Pro+", "跨平台自動化串接", "6/5"],
+                ].map(([tool, use, cancelled], i) => (
                   <tr key={i}>
-                    <td style={{ ...tC(i % 2 === 1), fontWeight: 500, padding: "8px 12px", fontSize: "13px" }}>{tool}</td>
-                    <td style={{ ...tC(i % 2 === 1), padding: "8px 12px", color: ST, fontSize: "13px" }}>{use}</td>
+                    <td style={{ ...tC(i % 2 === 1), fontWeight: 500, padding: "8px 12px", fontSize: "13px", color: cancelled ? "#999999" : "#1A1A1A", textDecoration: cancelled ? "line-through" : "none" }}>
+                      {tool}
+                      {cancelled && (
+                        <span style={{ marginLeft: "6px", fontSize: "10px", fontWeight: 600, background: "#F4F4F4", color: "#8B0000", border: "1px solid #D0D0D0", borderRadius: "3px", padding: "1px 5px", textDecoration: "none", display: "inline-block" }}>
+                          已取消
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ ...tC(i % 2 === 1), padding: "8px 12px", fontSize: "13px", color: cancelled ? "#999999" : ST }}>
+                      {use}
+                      {cancelled && <span style={{ color: "#8B0000", fontWeight: 500 }}>{` — 訂閱到期 ${cancelled}`}</span>}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -319,8 +329,8 @@ export default function NewsletterResearchPage() {
             </thead>
             <tbody>
               {[
-                { type: "策略電子報", tool: "Substack、TPG、a16z 等", method: "Feedly Pro 訂閱或直接轉寄", status: "可行" },
-                { type: "產業媒體", tool: "TechCrunch、VentureBeat、36氪 等", method: "Feedly Pro RSS", status: "可行" },
+                { type: "策略電子報", tool: "Substack、TPG、a16z 等", method: "手動訂閱或直接轉寄（Feedly Pro 已取消，8/15 到期）", status: "半自動" },
+                { type: "產業媒體", tool: "TechCrunch、VentureBeat、36氪 等", method: "手動 RSS 或直接訂閱（Feedly Pro 已取消，8/15 到期）", status: "半自動" },
                 { type: "顧問報告", tool: "McKinsey、Gartner、Forrester", method: "手動下載，清單見 Google Drive", status: "半自動" },
                 { type: "Twitter / X", tool: "從業者、VC、AI 研究員", method: "無自動化方案，暫以人工 List 整理", status: "痛點" },
                 { type: "Threads", tool: "同上", method: "API 限制嚴格，目前無解", status: "痛點" },
@@ -358,6 +368,10 @@ export default function NewsletterResearchPage() {
       {/* ── SECTION 4: 資料處理與篩選 ── */}
       <div style={card}>
         <h2 style={secTitle}>資料處理與篩選</h2>
+        {/* Tool status notice */}
+        <div style={{ background: "#FFF8F0", borderLeft: "4px solid #C8963E", padding: "12px 16px", borderRadius: "0 4px 4px 0", marginBottom: "16px", fontSize: "13px", color: "#1A1A1A", fontFamily: FF, lineHeight: "1.6" }}>
+          <strong style={{ color: "#C8963E" }}>工具異動提醒：</strong>Feedly Pro（8/15 到期）與 IFTTT Pro+（6/5 到期）已取消訂閱。下方架構圖為原始設計，接手者若重啟此系統，需評估替代方案或重新訂閱相關工具。
+        </div>
         <ProcessingFlowDiagram />
       </div>
 
@@ -407,7 +421,7 @@ export default function NewsletterResearchPage() {
 
         {/* Note */}
         <div style={{ margin: "20px 0", padding: "12px 16px", background: NG, borderRadius: "4px", fontSize: "13px", color: "#1A1A1A", fontFamily: FF, lineHeight: "1.7" }}>
-          主力 AI 工具為公司帳號 Gemini Pro。除 Feedly 外，所有 AI 處理均透過公司 Google Workspace 帳號完成，無額外工具成本。
+          主力 AI 工具為公司帳號 Gemini Pro。所有 AI 處理均透過公司 Google Workspace 帳號完成。注意：Feedly Pro 訂閱已於 8/15 到期，選題環節需改以手動方式瀏覽訂閱來源，或評估替代工具。
         </div>
 
         {/* Tier decision cards */}
@@ -509,7 +523,7 @@ export default function NewsletterResearchPage() {
                 { gap: "社群媒體抓取", desc: "Twitter/X 與 Threads 無穩定自動化方案", level: "高" },
                 { gap: "資料儲存方案", desc: "Google Sheets 不適合 LLM 批次分析，理想方案待確認", level: "高" },
                 { gap: "LLM 評分自動化", desc: "需在現有工具範圍內找到批次處理方案", level: "高" },
-                { gap: "Feedly 設定調校", desc: "篩選準確度尚未驗證，需試跑觀察", level: "中" },
+                { gap: "RSS 自動抓取工具", desc: "Feedly Pro 已取消（8/15 到期），需評估替代訂閱工具或重新訂閱", level: "高" },
               ].map((row, i) => (
                 <tr key={i}>
                   <td style={{ ...tC(i % 2 === 1), fontWeight: 500 }}>{row.gap}</td>

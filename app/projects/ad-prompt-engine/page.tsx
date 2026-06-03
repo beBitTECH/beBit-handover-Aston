@@ -106,6 +106,22 @@ export default function AdPromptEnginePage() {
         }
       />
 
+      {/* Live tool link */}
+      <div className="mb-6 flex items-center justify-between gap-4 px-5 py-4 bg-[#E8F0F8] border border-[#0050A0] rounded">
+        <div>
+          <div className="text-xs font-semibold text-[#0050A0] uppercase tracking-wide mb-0.5">工具已上線</div>
+          <div className="text-sm text-[#002855]">bebittech.github.io/banner-prompt-generator</div>
+        </div>
+        <a
+          href="https://bebittech.github.io/banner-prompt-generator/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-[#0050A0] text-white font-semibold text-sm rounded hover:bg-[#003880] transition-colors"
+        >
+          開啟 Prompt Generator →
+        </a>
+      </div>
+
       {/* 專案背景 */}
       <SectionCard title="專案背景" className="mb-6">
         <p className="text-sm text-[#1A1A1A] leading-relaxed">

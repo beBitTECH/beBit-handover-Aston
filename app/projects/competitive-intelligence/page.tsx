@@ -107,6 +107,22 @@ export default function CompetitiveIntelligencePage() {
         }
       />
 
+      {/* Live tool link */}
+      <div className="mb-6 flex items-center justify-between gap-4 px-5 py-4 bg-[#E8F0F8] border border-[#0050A0] rounded">
+        <div>
+          <div className="text-xs font-semibold text-[#0050A0] uppercase tracking-wide mb-0.5">系統已上線</div>
+          <div className="text-sm text-[#002855]">competitor-ad-intelligence-xi.vercel.app</div>
+        </div>
+        <a
+          href="https://competitor-ad-intelligence-xi.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-[#0050A0] text-white font-semibold text-sm rounded hover:bg-[#003880] transition-colors"
+        >
+          開啟競品情報系統 →
+        </a>
+      </div>
+
       {/* 背景 */}
       <SectionCard title="背景" className="mb-6">
         <p className="text-sm text-[#1A1A1A] leading-relaxed">

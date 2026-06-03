@@ -56,6 +56,26 @@ export const projects: Project[] = [
     detailHref: "/projects/email-mvp",
   },
   {
+    id: "bebit-ad-studio",
+    title: "大量廣告素材生成",
+    objective: "建立全自動廣告素材 pipeline：HTML 排版 × Gemini 文案生成 × Puppeteer 轉圖，讓非設計師填入活動資訊後即可一鍵產出多組發布品質的 A/B testing 素材。",
+    output: "已上線並維運的 Web 工具（Railway），12 色彩方案 × 8 版型 × 5 裝飾風格，50 張素材生成約 25 秒，附完整 AI 協作文件與踩坑記錄。",
+    status: "complete",
+    statusLabel: "已完成，維運中",
+    priority: "high",
+    openIssues: [
+      "Gemini API Key 在 Marcus 個人帳號（marcusbetch@gmail.com），交接時需移轉",
+      "Railway 免費方案有月用量上限，大量生成時需監控",
+      "目前無法批量上傳 Meta，需手動操作",
+    ],
+    keyFiles: [
+      { label: "工具網址", url: "https://bebit-ad-studio-production.up.railway.app" },
+      { label: "GitHub Repo", url: "https://github.com/beBitTECH/bebit-ad-studio" },
+    ],
+    handoverNotes: "系統完整上線並穩定維運。接手者需確認 Gemini API Key 移轉（目前在 marcusbetch@gmail.com），並熟悉 Railway Dashboard 監控流程。",
+    detailHref: "/projects/bebit-ad-studio",
+  },
+  {
     id: "ad-prompt-engine",
     title: "廣告提示詞生成器",
     objective: "建立參數化 prompt engineering 基礎設施：將 6 大設計維度系統化，讓非設計師能以活動資訊為輸入，自動組合出結構化 image prompt，直接銜接 GPT 生圖與 Canva 後製，完成零程式碼廣告素材生產流程。",

@@ -7,6 +7,7 @@ const projectChildren = [
   { href: "/projects/competitive-intelligence", label: "競品廣告情報系統" },
   { href: "/projects/email-mvp", label: "競品培育郵件情報" },
   { href: "/projects/ad-prompt-engine", label: "廣告提示詞生成器" },
+  { href: "/projects/bebit-ad-studio", label: "大量廣告素材生成" },
   { href: "/projects/newsletter-research", label: "電子報研究" },
 ];
 

@@ -5,9 +5,9 @@ import StatusBadge from "@/components/StatusBadge";
 import { projects } from "@/data/projects";
 
 const onboardingSteps = [
-  { step: 1, label: "確認帳號權限", description: "查閱公司 Email 帳號下的 Google Drive 憑證文件，確認各系統存取權已就緒", href: "/access-registry" },
-  { step: 2, label: "瀏覽專案清單", description: "了解全部 4 個待交接專案的狀態與優先級", href: "/projects" },
-  { step: 3, label: "閱讀優先專案交接頁", description: "競品廣告情報系統為最高優先級，目前已完成並持續維運", href: "/projects/competitive-intelligence" },
+  { step: 1, label: "確認帳號權限", description: "登入 cso.intern@bebit-tech.com，至 Google Drive 查閱帳號密碼文件，確認各系統存取權就緒", href: "/access-registry" },
+  { step: 2, label: "掌握系統全貌", description: "閱讀專案清單，了解 4 個已建立系統的技術棧、設計邏輯與當前狀態", href: "/projects" },
+  { step: 3, label: "從最高優先的系統起手", description: "競品廣告情報系統已完整自動化並維運中，是最需要掌握的核心基礎設施", href: "/projects/competitive-intelligence" },
 ];
 
 export default function Home() {
@@ -15,9 +15,9 @@ export default function Home() {
     <div>
       <PageHeader
         title="beBit 交接總覽"
-        description="本站彙整所有進行中及已完成專案的交接文件，供接手人員與內部關係人快速掌握現況。"
+        description="本站完整記錄實習期間從零建立的四套系統——涵蓋競品廣告情報、AI 工具開發與市場研究——供接手人員快速掌握設計邏輯、系統狀態與維運要點。"
         meta={
-          <span className="inline-flex items-center px-2.5 py-1 bg-slate-100 text-slate-600 rounded text-xs font-medium border border-slate-200">
+          <span className="inline-flex items-center px-2.5 py-1 bg-[#E8F0F8] text-[#0050A0] rounded-sm text-xs font-semibold border border-[#0050A0]/20">
             beBit 交接入口
           </span>
         }
@@ -27,32 +27,32 @@ export default function Home() {
         <table className="w-full text-sm">
           <tbody>
             {[
-              { page: "專案清單", desc: "4 個待交接專案的狀態與優先級", href: "/projects" },
-              { page: "權限與帳號資訊", desc: "查找所有系統帳號與 API key 的方式", href: "/access-registry" },
+              { page: "專案清單", desc: "4 個已交付系統的技術說明、接手要點與開放問題", href: "/projects" },
+              { page: "權限與帳號資訊", desc: "所有系統帳號、API key 與憑證文件的查找方式", href: "/access-registry" },
             ].map(({ page, desc, href }) => (
-              <tr key={href} className="border-b border-slate-100 last:border-0">
+              <tr key={href} className="border-b border-[#D0D0D0] last:border-0">
                 <td className="py-2.5 pr-4 w-48">
-                  <Link href={href} className="text-blue-700 font-medium hover:underline text-sm">
+                  <Link href={href} className="text-[#0050A0] font-semibold hover:underline text-sm">
                     {page}
                   </Link>
                 </td>
-                <td className="py-2.5 text-slate-600">{desc}</td>
+                <td className="py-2.5 text-[#555555]">{desc}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </SectionCard>
 
-      <SectionCard title="第一天閱讀路徑" className="mb-6">
+      <SectionCard title="第一天入門路徑" className="mb-6">
         <ol className="space-y-3">
           {onboardingSteps.map(({ step, label, description, href }) => (
             <li key={step} className="flex gap-4 items-start">
-              <span className="shrink-0 w-6 text-slate-400 font-medium text-sm text-right mt-0.5">{step}.</span>
+              <span className="shrink-0 w-6 text-[#0050A0] font-bold text-sm text-right mt-0.5">{step}.</span>
               <div className="text-sm">
-                <Link href={href} className="font-semibold text-slate-800 hover:text-blue-700">
+                <Link href={href} className="font-semibold text-[#002855] hover:text-[#0050A0]">
                   {label}
                 </Link>
-                <p className="text-slate-500 mt-0.5">{description}</p>
+                <p className="text-[#555555] mt-0.5">{description}</p>
               </div>
             </li>
           ))}
@@ -63,28 +63,28 @@ export default function Home() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4">專案名稱</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4">優先級</th>
-                <th className="pb-2 font-semibold text-slate-500">狀態</th>
+              <tr className="text-left bg-[#002855] text-white">
+                <th className="py-2.5 px-3 font-semibold text-xs uppercase tracking-wide">專案名稱</th>
+                <th className="py-2.5 px-3 font-semibold text-xs uppercase tracking-wide w-24">優先級</th>
+                <th className="py-2.5 px-3 font-semibold text-xs uppercase tracking-wide w-36">狀態</th>
               </tr>
             </thead>
             <tbody>
-              {projects.map((p) => (
-                <tr key={p.id} className="border-b border-slate-100 last:border-0">
-                  <td className="py-2.5 pr-4">
+              {projects.map((p, i) => (
+                <tr key={p.id} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"}`}>
+                  <td className="py-2.5 px-3">
                     {p.detailHref ? (
-                      <Link href={p.detailHref} className="text-blue-700 hover:underline font-medium">
+                      <Link href={p.detailHref} className="text-[#0050A0] hover:underline font-semibold">
                         {p.title}
                       </Link>
                     ) : (
-                      <span className="font-medium text-slate-800">{p.title}</span>
+                      <span className="font-semibold text-[#1A1A1A]">{p.title}</span>
                     )}
                   </td>
-                  <td className="py-2.5 pr-4">
+                  <td className="py-2.5 px-3">
                     <StatusBadge status={p.priority} />
                   </td>
-                  <td className="py-2.5">
+                  <td className="py-2.5 px-3">
                     <StatusBadge status={p.status} label={p.statusLabel} />
                   </td>
                 </tr>

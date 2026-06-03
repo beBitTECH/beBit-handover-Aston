@@ -4,12 +4,12 @@ import StatusBadge from "@/components/StatusBadge";
 import InfoRow from "@/components/InfoRow";
 
 const systemStatus = [
-  { item: "資料抓取", status: "每週執行一次：SearchAPI 抓取 Meta / LinkedIn 廣告" },
+  { item: "資料抓取", status: "每週執行一次：SearchAPI 抓取 Meta / LinkedIn 廣告，覆蓋 JP、TW、MY 三市場" },
   { item: "AI 分析", status: "每日兩次：Groq 處理 ai_analyzed = FALSE 的待分析記錄" },
-  { item: "資料同步", status: "AI 分析完成後即觸發 Supabase 同步" },
-  { item: "Dashboard", status: "Vercel 前端從 Supabase 讀取資料並呈現" },
+  { item: "資料同步", status: "AI 分析完成後即觸發 Supabase 同步，無需手動操作" },
+  { item: "Dashboard", status: "Vercel 前端從 Supabase 讀取資料並即時呈現" },
   { item: "Google Sheets 選單", status: "僅顯示 7 項生產操作；測試與修復功能已隱藏但仍可從 Script Editor 呼叫" },
-  { item: "GitHub 交接文件", status: "Repo 已含 AGENTS.md、CLAUDE.md、docs/ai/*、RUNBOOK.md 等 AI agent 入口文件" },
+  { item: "GitHub 文件體系", status: "Repo 已含 AGENTS.md、CLAUDE.md、docs/ai/*、RUNBOOK.md 等 AI agent 入口文件，可由 AI 工具直接接手" },
 ];
 
 const takeoverSteps = [
@@ -87,24 +87,30 @@ I am the incoming PIC for this project. Please explain:
 Issue:
 [貼上問題或 log]`;
 
+// McKinsey table header helper class
+const TH = "py-2.5 px-3 font-semibold text-xs uppercase tracking-wide text-white text-left";
+const TD = "py-2.5 px-3 text-[#1A1A1A] align-top";
+const TDm = "py-2.5 px-3 font-medium text-[#1A1A1A] align-top";
+const TDs = "py-2.5 px-3 text-[#555555] align-top";
+
 export default function CompetitiveIntelligencePage() {
   return (
     <div>
       <PageHeader
         title="競品廣告情報系統"
-        description="Meta 與 LinkedIn 競品廣告的自動化追蹤管道與分析儀表板。"
+        description="橫跨 Meta × LinkedIn × 三市場（JP / TW / MY）的全自動化競品廣告情報管道與分析儀表板。"
         meta={
           <>
-            <StatusBadge status="in-progress" />
-            <StatusBadge status="critical" />
+            <StatusBadge status="complete" label="已完成，維運中" />
+            <StatusBadge status="high" />
           </>
         }
       />
 
       {/* 背景 */}
       <SectionCard title="背景" className="mb-6">
-        <p className="text-sm text-slate-700 leading-relaxed">
-          過去競品廣告追蹤仰賴人工查找 Meta / LinkedIn Ad Library，資料分散、難以長期比較，也無法沉澱為可查詢的情報資產。本專案將競品廣告抓取、AI 分類、資料同步與 Dashboard 呈現串成一套低成本 pipeline，讓團隊可以定期追蹤競品活動主題、訊息策略與 Landing Page 方向。
+        <p className="text-sm text-[#1A1A1A] leading-relaxed">
+          過去競品廣告追蹤仰賴人工查找 Meta / LinkedIn Ad Library，資料分散於三個市場、難以長期比較，也無法沉澱為可查詢的情報資產。本專案從零設計並建立一套低成本 pipeline，將 8+ 個競品品牌的廣告抓取、AI 分類、資料同步與 Dashboard 呈現全程自動化，讓團隊可以系統性追蹤競品活動主題、訊息策略與 Landing Page 方向。
         </p>
       </SectionCard>
 
@@ -113,16 +119,16 @@ export default function CompetitiveIntelligencePage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-6 w-36">項目</th>
-                <th className="pb-2 font-semibold text-slate-500">目前狀態</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-36`}>項目</th>
+                <th className={TH}>目前狀態</th>
               </tr>
             </thead>
             <tbody>
               {systemStatus.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0">
-                  <td className="py-2.5 pr-6 font-medium text-slate-700 align-top">{row.item}</td>
-                  <td className="py-2.5 text-slate-600">{row.status}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"}`}>
+                  <td className={TDm}>{row.item}</td>
+                  <td className={TDs}>{row.status}</td>
                 </tr>
               ))}
             </tbody>
@@ -135,18 +141,18 @@ export default function CompetitiveIntelligencePage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-20">步驟</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4">動作</th>
-                <th className="pb-2 font-semibold text-slate-500 w-56">完成標準</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-20`}>步驟</th>
+                <th className={TH}>動作</th>
+                <th className={`${TH} w-56`}>完成標準</th>
               </tr>
             </thead>
             <tbody>
               {takeoverSteps.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 font-medium text-blue-700">{row.step}</td>
-                  <td className="py-2.5 pr-4 text-slate-700">{row.action}</td>
-                  <td className="py-2.5 text-slate-500">{row.criteria}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className="py-2.5 px-3 font-semibold text-[#0050A0] align-top">{row.step}</td>
+                  <td className={TD}>{row.action}</td>
+                  <td className={TDs}>{row.criteria}</td>
                 </tr>
               ))}
             </tbody>
@@ -159,16 +165,16 @@ export default function CompetitiveIntelligencePage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-80">禁止動作</th>
-                <th className="pb-2 font-semibold text-slate-500">原因</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-80`}>禁止動作</th>
+                <th className={TH}>原因</th>
               </tr>
             </thead>
             <tbody>
               {constraints.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 text-slate-800">{row.rule}</td>
-                  <td className="py-2.5 text-slate-500">{row.reason}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className={TDm}>{row.rule}</td>
+                  <td className={TDs}>{row.reason}</td>
                 </tr>
               ))}
             </tbody>
@@ -181,7 +187,7 @@ export default function CompetitiveIntelligencePage() {
         <InfoRow
           label="正式儀表板"
           value={
-            <a href="https://competitor-ad-intelligence-xi.vercel.app" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
+            <a href="https://competitor-ad-intelligence-xi.vercel.app" target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline">
               competitor-ad-intelligence-xi.vercel.app
             </a>
           }
@@ -189,7 +195,7 @@ export default function CompetitiveIntelligencePage() {
         <InfoRow
           label="追蹤範圍"
           value={
-            <a href="https://competitor-ad-intelligence-xi.vercel.app/tracking-scope" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
+            <a href="https://competitor-ad-intelligence-xi.vercel.app/tracking-scope" target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline">
               competitor-ad-intelligence-xi.vercel.app/tracking-scope
             </a>
           }
@@ -197,7 +203,7 @@ export default function CompetitiveIntelligencePage() {
         <InfoRow
           label="維護手冊"
           value={
-            <a href="https://competitor-ad-intelligence-xi.vercel.app/maintenance-guide" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
+            <a href="https://competitor-ad-intelligence-xi.vercel.app/maintenance-guide" target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline">
               competitor-ad-intelligence-xi.vercel.app/maintenance-guide
             </a>
           }
@@ -205,25 +211,25 @@ export default function CompetitiveIntelligencePage() {
         <InfoRow
           label="GitHub Repository"
           value={
-            <a href="https://github.com/beBitTECH/competitor-ad-intelligence" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
+            <a href="https://github.com/beBitTECH/competitor-ad-intelligence" target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline">
               beBitTECH/competitor-ad-intelligence
             </a>
           }
         />
-        <InfoRow label="Google Sheets（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Sheets URL]</span>} />
-        <InfoRow label="Apps Script（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Apps Script URL]</span>} />
-        <InfoRow label="Supabase（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Supabase URL]</span>} />
-        <InfoRow label="Google Drive 圖片資料夾（待補）" value={<span className="italic text-slate-400">[PLACEHOLDER — Google Drive URL]</span>} />
+        <InfoRow label="Google Sheets（待補）" value={<span className="italic text-[#555555]">[PLACEHOLDER — Google Sheets URL]</span>} />
+        <InfoRow label="Apps Script（待補）" value={<span className="italic text-[#555555]">[PLACEHOLDER — Apps Script URL]</span>} />
+        <InfoRow label="Supabase（待補）" value={<span className="italic text-[#555555]">[PLACEHOLDER — Supabase URL]</span>} />
+        <InfoRow label="Google Drive 圖片資料夾（待補）" value={<span className="italic text-[#555555]">[PLACEHOLDER — Google Drive URL]</span>} />
       </SectionCard>
 
       {/* AI 接手提示詞 */}
       <SectionCard title="AI 接手提示詞" className="mb-6">
-        <p className="text-sm text-slate-600 mb-3">
+        <p className="text-sm text-[#555555] mb-3">
           以 Claude Code、Codex 或其他 AI 工具開啟此 repo 時，將以下提示詞直接貼入。確認 AI 讀取完文件後再開始作業。
         </p>
-        <div className="bg-slate-50 border border-slate-200 rounded p-3">
-          <div className="text-xs text-slate-400 mb-1.5 font-medium uppercase tracking-wide">複製此提示詞</div>
-          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{AI_ONBOARDING_PROMPT}</p>
+        <div className="bg-[#F4F4F4] border border-[#D0D0D0] rounded p-4">
+          <div className="text-xs text-[#555555] mb-2 font-semibold uppercase tracking-wide">複製此提示詞</div>
+          <p className="text-sm text-[#1A1A1A] leading-relaxed whitespace-pre-wrap">{AI_ONBOARDING_PROMPT}</p>
         </div>
       </SectionCard>
 
@@ -232,16 +238,16 @@ export default function CompetitiveIntelligencePage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-80">限制</th>
-                <th className="pb-2 font-semibold text-slate-500">備註</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-80`}>限制</th>
+                <th className={TH}>備註</th>
               </tr>
             </thead>
             <tbody>
               {limitations.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 text-slate-800">{row.item}</td>
-                  <td className="py-2.5 text-slate-500">{row.note}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className={TDm}>{row.item}</td>
+                  <td className={TDs}>{row.note}</td>
                 </tr>
               ))}
             </tbody>

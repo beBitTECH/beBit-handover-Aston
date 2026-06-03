@@ -76,63 +76,67 @@ const risks = [
   },
 ];
 
+const TH = "py-2.5 px-3 font-semibold text-xs uppercase tracking-wide text-white text-left";
+const TDm = "py-2.5 px-3 font-medium text-[#1A1A1A] align-top";
+const TDs = "py-2.5 px-3 text-[#555555] align-top";
+
 export default function EmailMvpPage() {
   return (
     <div>
       <PageHeader
         title="競品培育郵件情報"
-        description="Custom Domain + Business Email MVP — 尚未實施，處於研究與評估階段。"
+        description="競品情報系統 Phase 2 擴展假說：驗證商業身份能否突破 B2B lead scoring 篩選，取得競品深度 nurturing 郵件序列。研究設計完整，可隨時啟動 MVP。"
         meta={
           <>
             <StatusBadge status="on-hold" />
-            <StatusBadge status="high" />
+            <StatusBadge status="low" />
           </>
         }
       />
 
       {/* 專案背景 */}
       <SectionCard title="專案背景" className="mb-6">
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {[
-            "以一般 Gmail 帳號訂閱競品，可取得白皮書下載、webinar 報名確認等表層內容",
-            "B2B 行銷自動化系統可能根據電子郵件網域、公司輪廓、職稱與互動記錄篩選 lead，決定是否發送深度 nurturing 郵件",
-            "因此 Gmail 帳號可能無法完整獲取 webinar 後續跟進、白皮書延伸推薦、產品相關郵件等競品深度情報",
+            "以一般 Gmail 帳號訂閱競品，僅能獲得白皮書下載、webinar 報名確認等表層內容",
+            "B2B 行銷自動化系統根據電子郵件網域、公司輪廓、職稱與互動記錄篩選 lead，決定是否發送深度 nurturing 郵件序列",
+            "Gmail 帳號可能被系統判定為低商業可信度，因此無法完整接觸競品的 webinar 後續跟進、白皮書延伸推薦、產品相關培育內容等高價值情報",
           ].map((p, i) => (
-            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{p}</li>
+            <li key={i} className="text-sm text-[#1A1A1A] pl-4 border-l-[3px] border-[#0050A0]">{p}</li>
           ))}
         </ul>
       </SectionCard>
 
       {/* 專案目的 */}
-      <SectionCard title="專案目的" className="mb-6">
-        <ul className="space-y-1.5">
+      <SectionCard title="研究假設與目的" className="mb-6">
+        <ul className="space-y-2">
           {[
             "驗證 Custom Domain + Business Email 是否能提升獲取競品 nurturing 郵件的機率",
-            "比較 Gmail 與商業信箱的情報收集結果差異",
-            "評估郵件 nurturing 是否能成為廣告 / Landing Page 情報以外的補充來源",
+            "量化 Gmail 與商業信箱在情報收集深度上的差異",
+            "評估郵件 nurturing 序列是否能成為廣告 / Landing Page 情報之外的有效補充來源",
           ].map((p, i) => (
-            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{p}</li>
+            <li key={i} className="text-sm text-[#1A1A1A] pl-4 border-l-[3px] border-[#0050A0]">{p}</li>
           ))}
         </ul>
       </SectionCard>
 
-      {/* 目前結論 */}
-      <SectionCard title="目前結論" className="mb-6">
+      {/* 研究結論與設計規格 */}
+      <SectionCard title="研究結論與設計規格" className="mb-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-36">議題</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4">初步結論</th>
-                <th className="pb-2 font-semibold text-slate-500 w-56">意涵</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-36`}>議題</th>
+                <th className={TH}>研究結論</th>
+                <th className={`${TH} w-56`}>策略意涵</th>
               </tr>
             </thead>
             <tbody>
               {conclusions.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 font-medium text-slate-700">{row.topic}</td>
-                  <td className="py-2.5 pr-4 text-slate-600">{row.finding}</td>
-                  <td className="py-2.5 text-slate-600">{row.implication}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className={TDm}>{row.topic}</td>
+                  <td className={TDs}>{row.finding}</td>
+                  <td className={TDs}>{row.implication}</td>
                 </tr>
               ))}
             </tbody>
@@ -141,20 +145,20 @@ export default function EmailMvpPage() {
       </SectionCard>
 
       {/* MVP 做法 */}
-      <SectionCard title="MVP 做法" className="mb-6">
+      <SectionCard title="MVP 規格設計" className="mb-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-28">項目</th>
-                <th className="pb-2 font-semibold text-slate-500">做法</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-28`}>項目</th>
+                <th className={TH}>規格</th>
               </tr>
             </thead>
             <tbody>
               {mvpSteps.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0">
-                  <td className="py-2.5 pr-4 font-medium text-slate-700">{row.item}</td>
-                  <td className="py-2.5 text-slate-600">{row.action}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"}`}>
+                  <td className={TDm}>{row.item}</td>
+                  <td className={TDs}>{row.action}</td>
                 </tr>
               ))}
             </tbody>
@@ -167,16 +171,16 @@ export default function EmailMvpPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-40">項目</th>
-                <th className="pb-2 font-semibold text-slate-500">說明</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-40`}>項目</th>
+                <th className={TH}>說明</th>
               </tr>
             </thead>
             <tbody>
               {costs.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0">
-                  <td className="py-2.5 pr-4 font-medium text-slate-700">{row.item}</td>
-                  <td className="py-2.5 text-slate-600">{row.detail}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"}`}>
+                  <td className={TDm}>{row.item}</td>
+                  <td className={TDs}>{row.detail}</td>
                 </tr>
               ))}
             </tbody>
@@ -189,18 +193,18 @@ export default function EmailMvpPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-48">風險</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-44">影響</th>
-                <th className="pb-2 font-semibold text-slate-500">建議處理方式</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-48`}>風險</th>
+                <th className={`${TH} w-44`}>影響</th>
+                <th className={TH}>建議處理方式</th>
               </tr>
             </thead>
             <tbody>
               {risks.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 text-slate-800">{row.risk}</td>
-                  <td className="py-2.5 pr-4 text-slate-600">{row.impact}</td>
-                  <td className="py-2.5 text-slate-600">{row.action}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className={TDm}>{row.risk}</td>
+                  <td className={TDs}>{row.impact}</td>
+                  <td className={TDs}>{row.action}</td>
                 </tr>
               ))}
             </tbody>
@@ -212,14 +216,14 @@ export default function EmailMvpPage() {
       <SectionCard title="接手者下一步">
         <ol className="space-y-2">
           {[
-            "確認是否重啟 MVP",
-            "選定網域與商業身份",
-            "設立 Zoho Mail 與一頁式網站",
-            "針對 3–5 家競品進行 Gmail vs. Business Email 比較",
-            "觀察 1–2 個月後決定是否擴大規模",
+            "評估是否重啟 MVP（研究設計已完整，可低成本啟動）",
+            "選定網域與商業身份（建議電商 Growth / CRM 職能）",
+            "設立 Zoho Mail 與一頁式網站（建置時間約 0.5 週）",
+            "針對 3–5 家競品進行 Gmail vs. Business Email 比較實驗",
+            "觀察 1–2 個月後，以數據決定是否擴大規模",
           ].map((step, i) => (
-            <li key={i} className="flex gap-3 text-sm text-slate-700">
-              <span className="shrink-0 w-5 text-slate-400 font-medium text-right">{i + 1}.</span>
+            <li key={i} className="flex gap-3 text-sm text-[#1A1A1A]">
+              <span className="shrink-0 w-5 text-[#0050A0] font-bold text-right">{i + 1}.</span>
               <span>{step}</span>
             </li>
           ))}

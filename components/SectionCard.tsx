@@ -8,10 +8,10 @@ export default function SectionCard({
   className?: string;
 }) {
   return (
-    <div className={`bg-white rounded-lg border border-slate-200 shadow-sm ${className}`}>
+    <div className={`bg-white rounded border border-[#D0D0D0] shadow-sm ${className}`}>
       {title && (
-        <div className="px-5 py-3.5 border-b border-slate-100">
-          <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">{title}</h2>
+        <div className="pl-0 pr-5 py-3.5 border-b border-[#D0D0D0]">
+          <h2 className="text-sm font-semibold text-[#002855] uppercase tracking-wider border-l-[3px] border-[#002855] pl-5">{title}</h2>
         </div>
       )}
       <div className="p-5">{children}</div>

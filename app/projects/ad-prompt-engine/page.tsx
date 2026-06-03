@@ -6,31 +6,31 @@ import InfoRow from "@/components/InfoRow";
 const outputs = [
   {
     name: "Web 工具（已上線）",
-    desc: "填表選設計偏好，自動產出 image prompt",
+    desc: "無需安裝、無需程式碼基礎，填表選設計偏好，自動產出結構化 image prompt",
     url: "https://bebittech.github.io/banner-prompt-generator",
     linkText: "bebittech.github.io/banner-prompt-generator",
   },
   {
     name: "GitHub Repo",
-    desc: "完整 source code + AI 協作文件",
+    desc: "完整 source code + AI 協作文件，Public repo，可直接 fork 擴展",
     url: "https://github.com/beBitTECH/banner-prompt-generator",
     linkText: "beBitTECH/banner-prompt-generator",
   },
   {
     name: "AI 協作文件",
-    desc: "PROJECT.md / CLAUDE.md / AGENTS.md",
+    desc: "PROJECT.md / CLAUDE.md / AGENTS.md — 可由 AI 工具直接接手修改",
     url: "",
     linkText: "repo 根目錄",
   },
   {
     name: "設計變數系統",
-    desc: "6 大維度：比例、明暗、色彩、構圖、畫面複雜度、文字複雜度",
+    desc: "6 大維度（比例、明暗、色彩、構圖、畫面複雜度、文字複雜度）的參數化 prompt 架構",
     url: "",
     linkText: "index.html",
   },
   {
     name: "技術交接文件",
-    desc: "MEMORY.md 含踩坑記錄",
+    desc: "MEMORY.md 完整記錄開發決策、踩坑紀錄與 Gemini API 注意事項",
     url: "",
     linkText: "repo 根目錄",
   },
@@ -87,36 +87,41 @@ const watchouts = [
 
 const AI_PROMPT = `Please read PROJECT.md first, then explain how the prompt assembly works and tell me which part of index.html I need to edit to add a new color palette option.`;
 
+const TH = "py-2.5 px-3 font-semibold text-xs uppercase tracking-wide text-white text-left";
+const TD = "py-2.5 px-3 text-[#1A1A1A] align-top";
+const TDm = "py-2.5 px-3 font-medium text-[#1A1A1A] align-top";
+const TDs = "py-2.5 px-3 text-[#555555] align-top";
+
 export default function AdPromptEnginePage() {
   return (
     <div>
       <PageHeader
-        title="Ad Prompt Engine"
-        description="廣告提示詞生成器：參數化設計介面，自動產出結構化 image prompt。"
+        title="廣告提示詞生成器"
+        description="參數化 prompt engineering 基礎設施：將設計決策系統化，讓非設計師以活動資訊為輸入，自動產出結構化 image prompt。"
         meta={
           <>
-            <StatusBadge status="complete" />
-            <StatusBadge status="medium" />
+            <StatusBadge status="complete" label="已完成，未運作" />
+            <StatusBadge status="low" />
           </>
         }
       />
 
       {/* 專案背景 */}
       <SectionCard title="專案背景" className="mb-6">
-        <p className="text-sm text-slate-700 leading-relaxed">
-          GPT image 模型在 2026 年初出現品質躍升，首次讓 AI 生成發布品質廣告圖成為可行假說。但實測發現，生圖品質的瓶頸不在模型，而在 prompt 結構。此工具定位因此確立：不生圖，只生 prompt。行銷人員填入活動資訊並選擇設計偏好，系統自動組合出結構化圖像生成指令，貼給 GPT 即得廣告素材。
+        <p className="text-sm text-[#1A1A1A] leading-relaxed">
+          GPT image 模型在 2026 年初出現品質躍升，首次讓 AI 生成發布品質廣告圖成為可行假說。但實測發現，生圖品質的瓶頸不在模型——而在 prompt 結構。多數使用者描述的是「想要什麼」，而非「設計規格是什麼」。此工具的定位因此確立：不生圖，只生 prompt。它是一套 prompt engineering 的基礎設施，將設計決策拆解為 6 個可獨立調整的維度，讓任何人都能以結構化方式下達高品質指令。
         </p>
       </SectionCard>
 
       {/* 專案目的 */}
       <SectionCard title="專案目的" className="mb-6">
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {[
             "將設計決策參數化，讓非設計師也能產出高品質 image prompt",
             "透過 Gemini API 自動改寫文案，確保標題、副標、CTA 具廣告說服力",
-            "銜接 Canva Magic Layer 後製，形成完整的無程式碼廣告生產流程",
+            "銜接 Canva Magic Layer 後製，形成完整的無程式碼廣告素材生產流程",
           ].map((p, i) => (
-            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{p}</li>
+            <li key={i} className="text-sm text-[#1A1A1A] pl-4 border-l-[3px] border-[#0050A0]">{p}</li>
           ))}
         </ul>
       </SectionCard>
@@ -126,24 +131,24 @@ export default function AdPromptEnginePage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-44">產出</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4">說明</th>
-                <th className="pb-2 font-semibold text-slate-500 w-56">連結</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-44`}>產出</th>
+                <th className={TH}>說明</th>
+                <th className={`${TH} w-56`}>連結</th>
               </tr>
             </thead>
             <tbody>
               {outputs.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 font-medium text-slate-700">{row.name}</td>
-                  <td className="py-2.5 pr-4 text-slate-600">{row.desc}</td>
-                  <td className="py-2.5">
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className={TDm}>{row.name}</td>
+                  <td className={TDs}>{row.desc}</td>
+                  <td className="py-2.5 px-3 align-top">
                     {row.url ? (
-                      <a href={row.url} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline break-all">
+                      <a href={row.url} target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline break-all text-sm">
                         {row.linkText}
                       </a>
                     ) : (
-                      <span className="italic text-slate-400">{row.linkText}</span>
+                      <span className="italic text-[#555555] text-sm">{row.linkText}</span>
                     )}
                   </td>
                 </tr>
@@ -155,24 +160,24 @@ export default function AdPromptEnginePage() {
 
       {/* 接手步驟 */}
       <SectionCard title="接手步驟" className="mb-6">
-        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-semibold text-[#0050A0] uppercase tracking-wide mb-2.5">
           情境 A：直接使用（無需安裝）
         </p>
         <ol className="space-y-2 mb-6">
           {stepsA.map((step, i) => (
-            <li key={i} className="flex gap-3 text-sm text-slate-700">
-              <span className="shrink-0 w-5 text-slate-400 font-medium text-right">{i + 1}.</span>
+            <li key={i} className="flex gap-3 text-sm text-[#1A1A1A]">
+              <span className="shrink-0 w-5 text-[#0050A0] font-bold text-right">{i + 1}.</span>
               <span>{step}</span>
             </li>
           ))}
         </ol>
-        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2.5">
+        <p className="text-xs font-semibold text-[#0050A0] uppercase tracking-wide mb-2.5">
           情境 B：修改功能或新增設計選項
         </p>
         <ol className="space-y-2">
           {stepsB.map((step, i) => (
-            <li key={i} className="flex gap-3 text-sm text-slate-700">
-              <span className="shrink-0 w-5 text-slate-400 font-medium text-right">{i + 1}.</span>
+            <li key={i} className="flex gap-3 text-sm text-[#1A1A1A]">
+              <span className="shrink-0 w-5 text-[#0050A0] font-bold text-right">{i + 1}.</span>
               <span>{step}</span>
             </li>
           ))}
@@ -181,10 +186,10 @@ export default function AdPromptEnginePage() {
 
       {/* 重要連結 */}
       <SectionCard title="重要連結" className="mb-6">
-        <InfoRow label="工具網址" value={<a href="https://bebittech.github.io/banner-prompt-generator" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">bebittech.github.io/banner-prompt-generator</a>} />
-        <InfoRow label="GitHub Repo" value={<a href="https://github.com/beBitTECH/banner-prompt-generator" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">beBitTECH/banner-prompt-generator</a>} />
-        <InfoRow label="Gemini API Key" value={<span className="text-slate-600 text-sm">Google AI Studio（需付費方案）</span>} />
-        <InfoRow label="技術文件" value={<span className="italic text-slate-400">PROJECT.md in repo root</span>} />
+        <InfoRow label="工具網址" value={<a href="https://bebittech.github.io/banner-prompt-generator" target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline">bebittech.github.io/banner-prompt-generator</a>} />
+        <InfoRow label="GitHub Repo" value={<a href="https://github.com/beBitTECH/banner-prompt-generator" target="_blank" rel="noopener noreferrer" className="text-[#0050A0] hover:underline">beBitTECH/banner-prompt-generator</a>} />
+        <InfoRow label="Gemini API Key" value={<span className="text-[#555555] text-sm">Google AI Studio（需付費方案）</span>} />
+        <InfoRow label="技術文件" value={<span className="italic text-[#555555]">PROJECT.md in repo root</span>} />
       </SectionCard>
 
       {/* 潛在注意事項 */}
@@ -192,18 +197,18 @@ export default function AdPromptEnginePage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left border-b border-slate-200">
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-52">事項</th>
-                <th className="pb-2 font-semibold text-slate-500 pr-4 w-48">影響</th>
-                <th className="pb-2 font-semibold text-slate-500">建議處理方式</th>
+              <tr className="bg-[#002855]">
+                <th className={`${TH} w-52`}>事項</th>
+                <th className={`${TH} w-48`}>影響</th>
+                <th className={TH}>建議處理方式</th>
               </tr>
             </thead>
             <tbody>
               {watchouts.map((row, i) => (
-                <tr key={i} className="border-b border-slate-100 last:border-0 align-top">
-                  <td className="py-2.5 pr-4 text-slate-800">{row.item}</td>
-                  <td className="py-2.5 pr-4 text-slate-600">{row.impact}</td>
-                  <td className="py-2.5 text-slate-600">{row.action}</td>
+                <tr key={i} className={`border-b border-[#D0D0D0] last:border-0 ${i % 2 === 1 ? "bg-[#F4F4F4]" : "bg-white"} align-top`}>
+                  <td className={TDm}>{row.item}</td>
+                  <td className={TDs}>{row.impact}</td>
+                  <td className={TDs}>{row.action}</td>
                 </tr>
               ))}
             </tbody>
@@ -213,7 +218,7 @@ export default function AdPromptEnginePage() {
 
       {/* AI 協作建議 */}
       <SectionCard title="AI 協作建議" className="mb-6">
-        <ul className="space-y-1.5 mb-4">
+        <ul className="space-y-2 mb-4">
           {[
             "開啟 repo 後，先讓 AI 讀 PROJECT.md，再下指令",
             "新增設計變數前，先讓 AI 讀 index.html 的 chip 選項結構",
@@ -221,25 +226,24 @@ export default function AdPromptEnginePage() {
             "Gemini 呼叫邏輯在 index.html 底部，修改前先讀 MEMORY.md",
             "測試時固定內容輸入，只改一個設計變數，方便比較 prompt 差異",
           ].map((tip, i) => (
-            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{tip}</li>
+            <li key={i} className="text-sm text-[#1A1A1A] pl-4 border-l-[3px] border-[#0050A0]">{tip}</li>
           ))}
         </ul>
-        <div className="bg-slate-50 border border-slate-200 rounded p-3">
-          <div className="text-xs text-slate-400 mb-1.5 font-medium uppercase tracking-wide">提示詞範例</div>
-          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{AI_PROMPT}</p>
+        <div className="bg-[#F4F4F4] border border-[#D0D0D0] rounded p-4">
+          <div className="text-xs text-[#555555] mb-2 font-semibold uppercase tracking-wide">提示詞範例</div>
+          <p className="text-sm text-[#1A1A1A] leading-relaxed whitespace-pre-wrap">{AI_PROMPT}</p>
         </div>
       </SectionCard>
 
       {/* 其他注意事項 */}
-      <SectionCard title="其他注意事項">
-        <ul className="space-y-1.5">
+      <SectionCard title="架構說明">
+        <ul className="space-y-2">
           {[
-            "整個工具只有一個檔案（index.html），無 framework、無 build step、無 server",
-            "Gemini 只負責改寫文案，設計變數直接注入 prompt，不經過 AI 處理",
-            "此工具是 beBit TECH Ad Studio 的後繼假說：用 GPT 生圖取代 HTML 渲染，兩個工具並存",
-            "repo 為 public，不含任何敏感資訊",
+            "整個工具只有一個檔案（index.html），零框架、零 build step、零 server — 極低維護成本",
+            "Gemini 只負責改寫文案，設計變數直接注入 prompt，不經過 AI 處理，確保 prompt 結構可控",
+            "repo 為 public，不含任何敏感資訊，可直接 fork 用於其他品牌或活動",
           ].map((note, i) => (
-            <li key={i} className="text-sm text-slate-700 pl-3 border-l-2 border-slate-200">{note}</li>
+            <li key={i} className="text-sm text-[#1A1A1A] pl-4 border-l-[3px] border-[#0050A0]">{note}</li>
           ))}
         </ul>
       </SectionCard>

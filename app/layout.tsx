@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 
-const geistSans = Geist({ variable: "--font-sans", subsets: ["latin"] });
+const inter = Inter({ variable: "--font-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "beBit 交接總覽",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-TW" className={`${geistSans.variable} h-full`}>
+    <html lang="zh-TW" className={`${inter.variable} h-full`}>
       <body className="h-full flex bg-slate-50">
         <Sidebar />
         <div className="flex-1 flex flex-col min-w-0 lg:ml-64">
